@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage{amsthm, amsfonts, amssymb, amsmath, graphicx, cancel, framed}
+
+\usepackage[hyphens]{url}
+\urlstyle{same}
+
+
+\title{Zcash Threat Model and Network Privacy Assessment}
+\author{The Zcash Foundation}
+
+\begin{document}
+
+    \maketitle
+\section{Introduction}
+
+In these days where too much of our lines are online, the amount of data leaked
+about our personal lives is growing ever greater. Financial data in particular
+provides a highly granular lens about one’s personal life, but obtaining
+financial privacy is difficult to obtain due to the value of tracking financial
+habits for advertising purposes. Fortunately, Zcash ensures strong financial
+privacy using zero-knowledge proofs (as well as randomization techniques) to
+protect against data leakage. This approach ensures that the raw bytes of a
+Zcash shielded transaction cannot leak identifiable information about the
+payer, payee, or amount.
+
+However, an adversary observing the network over which Zcash clients and nodes
+send transactions  can perform passive or active attacks resulting in linking
+users and their end recipients, even if that adversary cannot decrypt the Zcash
+shielded transaction directly. Consequently, it is important for us as Zcash
+protocol designers to ensure that such adversaries are considered within our
+threat model, and to employ best practices in network privacy to mitigate such
+attacks.
+
+The purpose of this post is to sketch out Zcash’s existing threat model,
+assuming the use of shielded transactions. To do this, we will identify 1) what
+is considered sensitive information in Zcash, 2) where this information is
+exposed, 3) what adversaries may exist, and finally 4) enumerate to the best of
+our ability the attacks that these adversaries can perform. In our next post,
+we will use this analysis to evaluate a range of network privacy mechanisms,
+and identify immediate next steps that we can take to ensure the most
+significant privacy improvements.
+
+\textit{Organization}.
+TODO
+
+\section{Background}
+
+\subsection{Zcash}
+
+TODO
+
+\subsection{Comparison of Zcash Privacy Expectations to Bitcoin}
+
+While Zcash provides the ability to make shielded transactions to completely
+hide the information contained within a transaction, users of Zcash can also
+make non-shielded transactions. Because Zcash is a fork of Bitcoin,
+non-shielded transactions consequently have effectively the same expectation of
+privacy as plain Bitcoin transactions, which is not much. In this post, we’ll
+evaluate the threat model for Zcash considering only shielded transactions.
+
+While both Zcash and Bitcoin have future goals of
+stable Tor integration and other network-privacy mechanisms, this routing via
+an anonymity layer does not prevent attacks that examine the bytes of the
+transaction itself. So unshielded transactions in Zcash and all Bitcoin
+transactions leak information to a network observer, which can be exploited to
+perform deanonymization attacks.
+
+\section{Zcash Threat Model}
+
+\subsection{Analysis of Sensitive Information Exposure}
+TODO
+
+\subsection{Adversarial Model}
+TODO
+
+\subsection{Attack Vectors}
+
+\bibliographystyle{plain}
+\bibliography{threat-model-network-privacy}
+
+\end{document}
