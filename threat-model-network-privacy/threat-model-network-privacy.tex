@@ -49,15 +49,14 @@ TODO
 
 \section{Background}
 
-\subsection{Zcash}
-
-TODO
-
-\subsubsection{Shielded Transactions}
+\subsection{Zcash Shielded Transactions}
 \label{shielded}
 
-Let’s revisit the difference between shielded transactions and unshielded
-transactions in Zcash. As mentioned before, unshielded transactions are similar
+While Zcash does allow for use of unshieleded transactions, in this technical
+report we focus entirely on the threat model assuming the use of shielded
+transactions. However, we will now briefly describe
+the difference between the two transaction types.
+As mentioned before, unshielded transactions are similar
 to Bitcoin transactions, and expose the pseudonyms of the payer, payee, and the
 amount paid. When this information is exposed to the network and persisted
 indefinitely to the Blockchain, it is effectively “Twitter for your bank
@@ -94,27 +93,46 @@ perform deanonymization attacks.
 \subsection{Analysis of Sensitive Information Exposure}
 As described in Section~\ref{shielded} an adversary could gain more information
 about a shielded transaction by observing information exposed to the network.
-Keeping this in mind, and assuming that a transaction is shielded, what
-sensitive information could an adversary gain by observing a transaction in
-flight over a network?
+Keeping this in mind, and assuming that a transaction is shielded, we now
+review sensitive information that could be exposed and used for malicious
+purposes by a adversary.
+We divide these information leaks into \emph{in scope} to the Zcash threat
+model, and \emph{out of scope}.
 
-\begin{itemize}
-  \item[-]  \textbf{Linking of IP sender address to destination}: While this
-    information is not encoded into the Zcash transaction itself, an adversary
-    could gain this information simply by observing the network or colluding
-    with one of the involved parties. For example, if the recipient is
-    malicious and colludes with a party that can link the sender to their
-    transaction, or if the recipient leaks to a provider which transaction they
-    are interested in, the sender and receiver could be linked to a particular
-    transaction.
-  \item[-]  \textbf{Unique fingerprints of user habits}: By observing behavior of Zcash
-    transactions sent over the network, an adversary could start to build a
-    “fingerprint” of a user’s behavior, partially when using machine learning
-    algorithms to classify traffic. Information that is exposed in this
-    category includes the time of day that a transaction occurs, the frequency
-    of transactions, and even the route that a transaction passes through from
-    sender to receiver.
-\end{itemize}
+\subsubsection{In Scope}
+
+\textbf{Learning the tuple (sender identity, transaction, receiver identity)}:
+Specifically, this three-tuple allows for an adversary to link the fact that a
+specific sender of Zcash made a payment to a specific receiver, even though the
+amount of the payment is not disclosed. While the sender and receiver identity
+is not exposed by the Zcash transaction itself, an adversary
+could gain this information by observing the network or colluding
+with one of the involved parties. For example, if the recipient is
+malicious and colludes with a party that can link the sender to their
+transaction, or if the recipient leaks to a provider which transaction they
+are interested in, the sender and receiver could be linked to a particular
+transaction. We consider exposure of this tuple to be in scope to our threat
+model.
+
+\textbf{Unique fingerprints of user habits}: By observing behavior of Zcash
+transactions sent over the network, an adversary could start to build a
+“fingerprint” of a user’s behavior, partially when using machine learning
+algorithms to classify traffic. Information that is exposed in this
+category includes the time of day that a transaction occurs, the frequency
+of transactions, and even the route that a transaction passes through from
+sender to receiver.
+
+\subsubsection{Out of Scope}
+
+\textbf{Learning the tuple (sender or receiver identity, receiver identity)}:
+Note that a network observer can also gain a subset of sender/receiver
+linkability information by
+observing just a sender \emph{or} receiver's identity linked to a specific
+transaction. We consider this use case to be out of scope to the threat model
+of Zcash, as such
+information---to the best of our assessment---simply leaks that the sender or
+receiver is participating in sending and receiving Zcash, without any further
+details. Consequently, we consider such an information leak to be out of scope.
 
 \subsection{Adversarial Model}
 TODO
