@@ -135,9 +135,76 @@ receiver is participating in sending and receiving Zcash, without any further
 details. Consequently, we consider such an information leak to be out of scope.
 
 \subsection{Adversarial Model}
-TODO
+
+We now review possible adversaries that may be motivated to compromise Zcash users'
+privacy.
+
+\textbf{Regular Zcash user}. Can send traffic through the network, such as
+dummy or real transactions.
+
+\textbf{Regular Zcash Node Operator}. Can operate one (or many) full Zcash
+nodes, and can store and forward all traffic that is sent through the node. Can
+query for network information.
+
+\textbf{DNS seeder operators}. Operates the node that is used by new nodes when
+bootstrapping to the Zcash network, in order to learn about other nodes in the
+network to begin communicating with them directly.
+
+\textbf{Internet Service Providers (ISPs)}. Can view traffic sent and received
+from either users or Zcash nodes. Can store observed traffic, forward traffic
+to other parties, and compare traffic with other traffic.
+
+\textbf{Government actors}. Can issue secret subpoenas and force ISPs and
+regular Zcash users to take actions they may not wish to take, such as turning
+over secret keys or server logs.
 
 \subsection{Attack Vectors}
+
+We now review known attacks in the literature that have been described for
+decentralized systems similar to Zcash, although not all attacks have been
+demonstrated against Zcash specifically. Notably, these attacks leverage
+decentralized networks where information about the network may or may not be
+consistent.
+
+\textbf{Epistemic attacks}. A network observer could perform an epistemic
+attack by observing unique routing information that allows for eventual
+deanonymization of that user. Again, such attacks are possible in Zcash because
+users do not control routing information for their transaction.
+
+\textbf{Fingerprinting attacks}. Fingerprinting user behavior when making a
+transaction can lead to deanonymizing that user, even if shielded transactions
+are used. Fingerprinting can be performed by a range of adversaries across many
+different settings. For example, a malicious light wallet node could observe
+the frequency and timing of a user’s transactions, or even the recipient of a
+user’s transaction could create a profile of the person making payments to them
+via timing and frequency of their payments, even if that user wishes to remain
+anonymous.
+
+\textbf{Denial of service attacks}. Such attacks could be performed against
+Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
+against Zcash users, such as light wallets refusing to service certain classes
+of IP addresses.
+
+\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
+such that some nodes think they are aware of the entire network, but only
+instead be aware of a small subset of nodes. Such attacks could be performed by
+DNS seeders (again, by lying about the state of the network), or even by
+highly-connected nodes. Such attacks are well-known in the literature and in
+practice and demonstrated to be practical.
+
+\textbf{End to end correlation attacks}. This attack could occur by an
+adversary that has a complete view of the network. Such an attack is possible
+only when the recipient uses a light wallet in such a manner that leaks the
+transaction that the recipient is interested in, as further described in
+Section~\cite{light-wallet-spec}. Otherwise, as all recipients download information about every
+transaction, an adversary cannot gain a true end-to-end view, unless the
+recipient themselves is malicious.
+
+
+
+
+
+
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
