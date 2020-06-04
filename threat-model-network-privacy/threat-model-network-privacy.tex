@@ -4,6 +4,25 @@
 
 \usepackage[hyphens]{url}
 \urlstyle{same}
+\usepackage{xifthen}
+\usepackage[usenames,svgnames,table]{xcolor}
+
+\setlength{\marginparsep}{8pt}
+\setlength{\marginparwidth}{40pt}
+\setlength{\marginparpush}{5pt}
+\newcounter{mn}
+\setcounter{mn}{1}
+\newcommand{\superscript}[1]{\ensuremath{{}^{\textrm{\scriptsize #1}}}}
+\newcommand{\roughtext}[1]{\begin{color}{SkyBlue}#1\end{color}}
+\newcommand{\mntext}[1]{\colorbox{SkyBlue}{\begin{color}{black}#1\end{color}}}
+\newcommand{\mn}[2][]{{\tiny\superscript{\mntext{\arabic{mn}}}}\marginpar{\scriptsize{
+  \ifthenelse{\isempty{#1}}
+  {\mntext{\parbox{0.95\marginparwidth}{\superscript{\arabic{mn}}~\raggedright{#2}}}}
+  {\mntext{\parbox{0.95\marginparwidth}{\superscript{\arabic{mn}}#1 says:~\raggedright{#2}}}}
+}}\stepcounter{mn}}
+
+\newcommand\supth{\ensuremath{^{\textrm{\scriptsize th}}}}
+
 
 
 \title{Zcash Threat Model and Network Privacy Assessment}
@@ -45,9 +64,17 @@ mechanisms improve the privacy and security of Zcash users. Finally, we lay out
 several near-term and long-term recommendations for improvements.
 
 \textit{Organization}.
-TODO
+We begin in Section~\ref{background} by discussing background information
+useful to understanding Zcash and its threat model. In
+Section~\ref{threat-model}, we introduce a threat model for Zcash, by
+discussing sensitive information that attackers could observe in the Zcash
+network, reviewing possible attacker profiles and their associated
+capabilities and powers, and finally reviewing a range of potential attack
+vectors.
 
-\section{Background}
+\mn[CK]{TODO add in the second half of this work after it is added}
+
+\section{Background} \label{background}
 
 \subsection{Zcash Shielded Transactions}
 \label{shielded}
@@ -89,6 +116,7 @@ transactions leak information to a network observer, which can be exploited to
 perform deanonymization attacks.
 
 \section{Zcash Threat Model}
+\label{threat-model}
 
 \subsection{Analysis of Sensitive Information Exposure}
 As described in Section~\ref{shielded} an adversary could gain more information
@@ -101,8 +129,13 @@ model, and \emph{out of scope}.
 
 \subsubsection{In Scope}
 
-\textbf{Learning the tuple (sender identity, transaction, receiver identity)}:
-Specifically, this three-tuple allows for an adversary to link the fact that a
+Note that an adversary has the ability to observe both \emph{on-chain} visible
+data as well as information or behaviour that is exposed to the network during
+the process of submitting a new transaction or receiving a transaction.
+
+\textbf{Linking (sender identity, transaction, receiver identity)}:
+Specifically, this three-tuple of sender identity, transaction, and receiver
+identity allows for an adversary to link the fact that a
 specific sender of Zcash made a payment to a specific receiver, even though the
 amount of the payment is not disclosed. While the sender and receiver identity
 is not exposed by the Zcash transaction itself, an adversary
@@ -111,8 +144,8 @@ with one of the involved parties. For example, if the recipient is
 malicious and colludes with a party that can link the sender to their
 transaction, or if the recipient leaks to a provider which transaction they
 are interested in, the sender and receiver could be linked to a particular
-transaction. We consider exposure of this tuple to be in scope to our threat
-model.
+transaction.
+
 
 \textbf{Unique fingerprints of user habits}: By observing behavior of Zcash
 transactions sent over the network, an adversary could start to build a
@@ -122,9 +155,13 @@ category includes the time of day that a transaction occurs, the frequency
 of transactions, and even the route that a transaction passes through from
 sender to receiver.
 
+Further, ``on-chain'' information could also allow for fingerprintability. For
+example, fees and timing of transactions could possibly provide additional
+information to an observer.
+
 \subsubsection{Out of Scope}
 
-\textbf{Learning the tuple (sender or receiver identity, receiver identity)}:
+\textbf{Learning the tuple (sender or receiver identity, transaction)}:
 Note that a network observer can also gain a subset of sender/receiver
 linkability information by
 observing just a sender \emph{or} receiver's identity linked to a specific
@@ -139,12 +176,13 @@ details. Consequently, we consider such an information leak to be out of scope.
 We now review possible adversaries that may be motivated to compromise Zcash users'
 privacy.
 
-\textbf{Regular Zcash user}. Can send traffic through the network, such as
-dummy or real transactions.
+\textbf{Regular Zcash user}. Allowed to send and receive transactions and act
+outside the protocol, just as a real user.
 
 \textbf{Regular Zcash Node Operator}. Can operate one (or many) full Zcash
 nodes, and can store and forward all traffic that is sent through the node. Can
-query for network information.
+query for network information, and store and examine all information it
+receives.
 
 \textbf{DNS seeder operators}. Operates the node that is used by new nodes when
 bootstrapping to the Zcash network, in order to learn about other nodes in the
