@@ -105,7 +105,8 @@ While Zcash provides the ability to make shielded transactions to completely
 hide the information contained within a transaction, users of Zcash can also
 make non-shielded transactions. Because Zcash is a fork of Bitcoin,
 non-shielded transactions consequently have effectively the same expectation of
-privacy as plain Bitcoin transactions, which is not much. In this post, we’ll
+privacy as plain Bitcoin transactions, which had been proven to be insecure
+against de-anonymization attacks~\ref{anon-bitcoin}. In this post, we’ll
 evaluate the threat model for Zcash considering only shielded transactions.
 
 While both Zcash and Bitcoin have future goals of
@@ -208,6 +209,10 @@ consistent.
 attack by observing unique routing information that allows for eventual
 deanonymization of that user. Again, such attacks are possible in Zcash because
 users do not control routing information for their transaction.
+
+One example of epistemic attacks against cryptocurrency networks involve the
+probability of ``super-connected'' nodes that can link the node from which a
+transaction originated~\cite{fanti2018dandelion}.
 
 \textbf{Fingerprinting attacks}. Fingerprinting user behavior when making a
 transaction can lead to deanonymizing that user, even if shielded transactions
