@@ -231,12 +231,14 @@ highly-connected nodes. Such attacks are well-known in the literature and in
 practice and demonstrated to be practical.
 
 \textbf{End to end correlation attacks}. This attack could occur by an
-adversary that has a complete view of the network. Such an attack is possible
+adversary that can obtain the (sender identity, transaction, receiver identity)
+tuple discussed in Section~\ref{threat-model}. Such an attack is possible
 only when the recipient uses a light wallet in such a manner that leaks the
 transaction that the recipient is interested in, as further described in
 Section~\cite{light-wallet-spec}. Otherwise, as all recipients download information about every
-transaction, an adversary cannot gain a true end-to-end view, unless the
-recipient themselves is malicious.
+transaction via a broadcast-like protocol, and hence an adversary cannot gain a
+true end-to-end view, unless the
+recipient themselves is compromised or malicious.
 
 
 
