@@ -172,6 +172,25 @@ information---to the best of our assessment---simply leaks that the sender or
 receiver is participating in sending and receiving Zcash, without any further
 details. Consequently, we consider such an information leak to be out of scope.
 
+\textbf{Unforeseen Software Flaws}: While our team developing Zcash software
+works diligently to prevent software bugs and vulnerabilities to the best of
+our ability, we do not
+consider such flaws in scope to our threat model, as such cases are unforeseen
+and we cannot rule them out completely. As such, when we become aware of
+vulnerabilities or flaws, we will fix them, but we cannot claim such
+occurrences will not occur in the future.
+
+\textbf{User Behavior Outside of the Zcash Protocol}: Zcash is not used in a
+vacuum; spending and receiving Zcash is linked to real-world value. As such, we
+do not consider user behavior outside of the Zcash protocol to be in scope to
+our threat model, even if that behavior results in spending or receiving Zcash.
+For example, someone who goes to a website and wishes to purchase an item in
+Zcash may be unlinkable purely when observing the Zcash network, but their
+behavior when browsing the website can still be observable to a network
+attacker. In order to spend Zcash in a \emph{truly} private way, the user must
+use another privacy-preserving technology to hide their spending behavior
+outside of Zcash, such as accessing that website over Tor.
+
 \subsection{Adversarial Model}
 
 We now review possible adversaries that may be motivated to compromise Zcash users'
