@@ -123,7 +123,7 @@ A user wishing to spend
 funds can publish a new transaction to the network in several ways. The user
 could operate a \emph{full node}, meaning this node also participates in all
 network behaviour, such as gossiping transactions, responding to queries for
-the current network state (the blockchain), etc.
+the current state of the network, etc.
 
 The user can also spend funds via a \emph{light
 client} by publishing their transaction to a
@@ -132,7 +132,7 @@ light wallet functionality. Note that while publishing a transaction to a light
 wallet, the user exposes the fact that they are making a Zcash transaction (as
 the light wallet learns a particular transaction, along with the IP address of
 the user). However, the light wallet will not learn the identity of the
-receiver of the funds~\ref{light-wallet-spec}.
+receiver of the funds~\cite{light-wallet-spec}.
 
 \textbf{Receiving a Transaction (Accepting Funds)}. A user receiving a
 transaction similarly has two options for how to receive these funds, either
@@ -142,14 +142,14 @@ An important point to emphasize that because Zcash is a broadcast protocol (all
 full nodes sync the full state of the network), a user receiving transactions
 via a full node will not expose which transaction they are interested.
 
-Similarly, a user fetching transactions from a light wallet will also fetch the
-entire network state (the blockcahin), and also not expose which transaction they are interested
+Similarly, a user fetching transactions from a light wallet will also fetch all
+block headers and therefore not expose which transaction they are interested
 in. However, one slight exception exists for the case of light client/light
 wallets. A light client fetches the ``block headers'' only, meaning that if
 they wish to learn the full details of a transaction (such as the memo field),
 they must query the light wallet for those details separately. As such, the
 light wallet can link a recipient to a particular transaction in the case the
-user queries for extended transaction fields~\ref{light-wallet-spec}.
+user queries for extended transaction fields~\cite{light-wallet-spec}.
 
 \section{Zcash Threat Model}
 \label{threat-model}
