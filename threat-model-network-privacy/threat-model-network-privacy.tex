@@ -144,12 +144,12 @@ via a full node will not expose which transaction they are interested.
 
 Similarly, a user fetching transactions from a light wallet will also fetch all
 block headers and therefore not expose which transaction they are interested
-in. However, one slight exception exists for the case of light client/light
-wallets. A light client fetches the ``block headers'' only, meaning that if
-they wish to learn the full details of a transaction (such as the memo field),
+in. However, one slight exception exists for clients that wish
+to learn the full details of a transaction (such as the memo field). For this
+case,
 they must query the light wallet for those details separately. As such, the
 light wallet can link a recipient to a particular transaction in the case the
-user queries for extended transaction fields~\cite{light-wallet-spec}.
+user queries for extended transaction fields for a specific block~\cite{light-wallet-spec}.
 
 \section{Zcash Threat Model}
 \label{threat-model}
