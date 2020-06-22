@@ -226,6 +226,15 @@ attacker. In order to spend Zcash in a \emph{truly} private way, the user must
 use another privacy-preserving technology to hide their spending behavior
 outside of Zcash, such as accessing that website over Tor.
 
+\textbf{Block Access Patterns}: Even if a user accessed
+information about the Zcash blockchain using an anonymity tool such as Tor, the
+access patterns for specific blocks could leak information to network
+adversaries, such as the time of day that users requested information about
+that block, or its popularity. However, preventing such information leaks
+can likely only be solved using a full broadcast system, which is already
+an option for full Zcash notes. For optimizations, we do not consider the
+access patterns on blocks to be in scope to the Zcash threat model.
+
 \subsection{Adversarial Model}
 
 We now review possible adversaries that may be motivated to compromise Zcash users'
