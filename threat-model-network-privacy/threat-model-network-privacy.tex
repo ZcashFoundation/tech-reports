@@ -325,7 +325,29 @@ Tor~\cite{tor-specification}, and
 Loopix-based mixnets~\cite{Piotrowska:2017:LAS}.
 
 \textbf{Dandelion.}
-TODO
+Dandelion~\cite{BojjaVenkatakrishnan:2017:DRB} and
+Dandelion++~\cite{Fanti:2018:DLC} define a lightweight gossip protocol for
+distributed networks such as cryptocurrencies to protect against \emph{passive}
+deanonymization attacks, but do not consider active or targeted attacks. Such
+passive deanonymization attacks could be conducted by a ``super node'' that has
+a high degree of connections to other nodes (and could either be a single node
+or a botnet where adversarial machines share information). As such, it is
+assumed that this adversary is honest-but-curious, following the gossip protocol
+but wishes to learn as much information about users as it can directly observe.
+However, Dandelion++ does consider a stronger adversarial model where nodes are
+allowed an arbitrarily-number of connections to other nodes (acting outside of the
+Bitcoin gossip spec which only allows 8).
+
+Both Dandelion variants follow a randomized design for how transactions are
+gossiped to the network, differing from the Bitcoin design where nodes publish
+transactions as widely as possible as quickly as possible. In the Dandelion
+design, whenever a node receives a transaction from a neighbor, it
+first flips a coin to determine if the traffic is sent to a single
+neighbor (constituting the ``stem'' phase) or to all the node's connections
+(constituting the ``fluff'' phase). Such an approach frustrates the ability for
+a super node to link a specific transaction to the node which originally
+published that transaction.
+
 
 \textbf{Tor.}
 TODO
