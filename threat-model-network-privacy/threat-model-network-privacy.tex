@@ -326,9 +326,11 @@ Loopix-based mixnets~\cite{Piotrowska:2017:LAS}.
 
 \textbf{Dandelion.}
 Dandelion~\cite{BojjaVenkatakrishnan:2017:DRB} and
-Dandelion++~\cite{Fanti:2018:DLC} define a lightweight gossip protocol for
-distributed networks such as cryptocurrencies to protect against \emph{passive}
-deanonymization attacks, but do not consider active or targeted attacks. Such
+Dandelion++~\cite{Fanti:2018:DLC} is a lightweight gossip protocol aimed at
+adding additional network privacy for
+distributed networks such as cryptocurrencies. Dandelion protects against
+\emph{passive}
+deanonymization attacks, but does not consider active or targeted attacks. Such
 passive deanonymization attacks could be conducted by a ``super node'' that has
 a high degree of connections to other nodes (and could either be a single node
 or a botnet where adversarial machines share information). As such, it is
@@ -350,7 +352,24 @@ published that transaction.
 
 
 \textbf{Tor.}
-TODO
+Tor~\cite{tor-specification} is an anonymity network that today has over 2.5
+million users and a network
+size of over 6,500 nodes. Tor supports applications that require low latency,
+such as browsing the Internet anonymously or streaming videos. In order to
+support such a use case, Tor assumes that it is hard for network adversaries to
+gain an end-to-end view and provide correlation attacks, such as by injecting
+timing or dropping packets to test if the traffic it can view entering the
+network is the same as the traffic it can view leaving the network.
+
+Tor distributes its routing information (i.e, information about each relay) via
+an authenticated document called the \emph{consensus}, which is signed by a
+threshold number of trusted servers called \emph{directory authorities}. In
+doing so, Tor ensures that all clients and relays have a consistent view of the
+network. By distributing a global authenticated document to all network
+participants, Tor avoids epistemic or routing attacks unlike completely
+decentralized networks which cannot guarantee a user or relay's view of the
+network is authentic or that all users fall within a global anonymity set.
+
 
 \textbf{Loopix-based Mixnets.}
 TODO
