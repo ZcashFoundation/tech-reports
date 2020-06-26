@@ -391,7 +391,34 @@ other distributed networks.
 \section{Assessment of Network Privacy Approaches to Zcash Privacy}
 \label{network-privacy-assessment}
 
+We now review the extent to which Dandelion++, Tor, and a Loopix-based mixet
+protect against the existing network-based attacks against Zcash described in
+Section~\ref{attack-vectors}.
 
+\begin{table}[t]
+\begin{tabular}{ c | c | c c | }
+  Attack & Dandelion & Tor & Loopix-Based Mixnet \\
+ \hline
+  Epistemic & cell5 & cell6 & X \\
+ \hline
+  Timing-based fingerprinting & cell8 & cell9 & X \\
+ \hline
+  Content-based fingerprinting & cell8 & cell9 & X \\
+ \hline
+  Denial of Service & cell8 & cell9 & X \\
+ \hline
+  Partitioning & cell8 & cell9 & X \\
+ \hline
+  Passive end to end correlation & cell8 & cell9 & X \\
+  Active end to end correlation & cell8 & cell9 & X \\
+\end{tabular}
+  \caption{Assessment of effectiveness of network privacy tools for Zcash
+  security and privacy}
+  \label{network-zcash-assessment}
+\end{table}
+
+We summarize our results in Table~\ref{network-zcash-assessment}, but describe
+our findings here.
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
