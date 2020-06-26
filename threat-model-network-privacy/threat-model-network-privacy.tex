@@ -372,7 +372,21 @@ network is authentic or that all users fall within a global anonymity set.
 
 
 \textbf{Loopix-based Mixnets.}
-TODO
+While a range of mix network designs have been introduced in the literature, in
+this assessment we consider only those which instantiate the
+Loopix~\cite{Piotrowska:2017:LAS} design, which provides improved latency
+guarantees over prior designs. Similar to other mix network designs, Loopix
+uses dummy packets and message delays in order to protect against adversaries
+performing fingerprinting and end-to-end attacks of user traffic.
+
+While Loopix specifies how messages are routed through a network, Loopix-based
+networks still require safely distributing network information to users and
+nodes. As one example, Katzenpost~\cite{katzenpost}, a mix network which implemented
+Loopix,  used a similar model to Tor
+by leveraging trusted network authorities to sign and distribute the state of
+the network. However, alternative network distribution mechanisms can be used,
+but similarly may be subject to epistemic and path-routing attacks similar to
+other distributed networks.
 
 \section{Assessment of Network Privacy Approaches to Zcash Privacy}
 \label{network-privacy-assessment}
