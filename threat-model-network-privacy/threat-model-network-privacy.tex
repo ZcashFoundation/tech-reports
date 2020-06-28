@@ -6,6 +6,7 @@
 \usepackage{multirow}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{ifsym}
 
 \usepackage{commath}
 \usepackage{amsthm}
@@ -407,6 +408,17 @@ We now review the extent to which Dandelion++, Tor, and a Loopix-based mixnet
 protect against the existing network-based attacks against Zcash described in
 Section~\ref{attack-vectors}.
 
+Note that we assume an attacker does not control either the sender or receiver
+of funds. We assume the mixnet only delays transactions and does not generate
+dummy packets (as generating dummy transactions that are verifiable require
+higher-level application support, and cannot be a property entirely provided by
+the mixnet itself).
+
+We assume the mixnet is a \emph{seperate} anonymity network entirely, such as
+in the style of Nym, and is \emph{not} part of the cryptocurrency network
+itself.
+% TODO say why this assumption is important
+
 \begin{table}[t]
   \caption{Effectiveness of network privacy mechanisms for Zcash
   security and privacy}
@@ -415,24 +427,26 @@ Section~\ref{attack-vectors}.
 \centering
 
   \CIRCLE=protects against; \Circle=does not protect against;
-  ?=unknown;
+  ?=unknown; $\Diamond$=Not a threat;
 
-  \begin{tabular}{ c | c | c | c c | c | c | c |}
-    \multicolumn{3}{c} Full Node & \multicolumn{3}{c} Light Wallet \\
-  & Attack & Dandelion & Tor & Loopix-Based Mixnet \\
+  Mixnet=Loopix-based routing;
+
+  \medskip
+
+  \begin{tabular}{ c | c c c | c  c  c |}
+  Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
+    & Dandelion++ & Tor & Mixnet  & Dandelion++ & Tor & Mixnet \\
  \hline
-    & Epistemic & \CIRCLE & \CIRCLE & ? & X & X & X \\
+    Epistemic & \CIRCLE & \CIRCLE & ? & X & X & X \\
  \hline
-  \multirow{2}{*}{Fingerprinting} &
-    Timing-based & cell8 & cell9 & X & X & X & X \\
+    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & X & X & X \\
  \hline
-    & Content-based & cell8 & cell9 & X & X & X & X \\
+    Content Fingerprinting & \Circle & \Circle & \Circle  & X & X & X \\
  \hline
-    & Denial of Service & cell8 & cell9 & X & X & X & X \\
+    Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle &
+    \Circle \\
  \hline
-  \multirow{2}{*}{End to end correlation} &
-    Passive end to end correlation & cell8 & cell9 & X & X & X & X \\
-    Active end to end correlation & cell8 & cell9 & X & X & X & X \\
+    Passive end to end correlation & \Circle & \CIRCLE & \CIRCLE & X & X & X \\
 \end{tabular}
 \end{table}
 
