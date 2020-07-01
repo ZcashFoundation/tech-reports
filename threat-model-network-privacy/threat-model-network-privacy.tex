@@ -177,6 +177,7 @@ We divide these information leaks into \emph{in scope} to the Zcash threat
 model, and \emph{out of scope}.
 
 \subsubsection{In Scope}
+\label{in-scope}
 
 Note that an adversary has the ability to observe both \emph{on-chain} visible
 data as well as information or behaviour that is exposed to the network during
@@ -209,6 +210,7 @@ example, fees and timing of transactions could possibly provide additional
 information to an observer.
 
 \subsubsection{Out of Scope}
+\label{out-of-scope}
 
 \textbf{Learning the tuple (sender or receiver identity, transaction)}:
 Note that a network observer can also gain a subset of sender/receiver
@@ -267,6 +269,18 @@ since our analysis only considers the case where shielded transactions are
 used, we deem epistemic attacks such as those presented by the Dandelion
 authors as not applicable for Zcash.
 
+\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
+such that some nodes think they are aware of the entire network, but only
+instead be aware of a small subset of nodes. Such attacks could be performed by
+DNS seeders (again, by lying about the state of the network), or even by
+highly-connected nodes. Such attacks are well-known in the literature and in
+practice and demonstrated to be practical.
+
+However, when considering deanonymization attacks against Zcash users, if
+shielded transactions are used, the same threat model holds for users
+regardless of whether an attacker can successfully perform a partitioning
+attack on the network.
+
 
 \subsection{Adversarial Model}
 
@@ -303,9 +317,30 @@ decentralized networks where information about the network may or may not be
 consistent, or require the use of light wallets in a setting where user
 behavior can be differentiated.
 
-\textbf{Fingerprinting attacks}. Fingerprinting user behavior when making a
-transaction can lead to deanonymizing that user, even if shielded transactions
-are used. Fingerprinting can be performed by a range of adversaries across many
+\textbf{Fingerprinting attacks by Observing Timing of Transactions}.
+Fingerprinting timing of when transactions are made
+can lead to deanonymizing the sender and
+receiver \emph{only} in the light wallet setting, even if shielded transactions
+are used. We note that in the full node setting, such attacks are not possible
+due to the full broadcast nature once transactions are published to the Zcash
+blockchain.
+
+However, timing-based fingerprinting can be performed by a
+malicious light wallet node or even a malicious or compromised recipient. In
+this setting, these parties could build a profile of the person making payments
+to them by observing the timing of their payments, even if the sender wishes to remain
+anonymous.
+
+While this attack can be amplified when information external to Zcash, such as
+if a user visits a website and exposes their IP address, and then makes a Zcash
+transaction, possibly allowing the recipient to link the two events. However,
+we consider this event to be out of scope, as further discussed in
+Section~\ref{out-of-scope}.
+
+\textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
+Fingerprinting user behavior such as the frequency and number of transactions
+made can lead to deanonymizing senders and receivers, even if shielded transactions
+are used. Behavior-based fingerprinting can be performed by a range of adversaries across many
 different settings. For example, a malicious light wallet node could observe
 the frequency and timing of a user’s transactions, or even the recipient of a
 user’s transaction could create a profile of the person making payments to them
@@ -317,13 +352,6 @@ Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
 against Zcash users, such as light wallets refusing to service certain classes
 of IP addresses.
 
-\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
-such that some nodes think they are aware of the entire network, but only
-instead be aware of a small subset of nodes. Such attacks could be performed by
-DNS seeders (again, by lying about the state of the network), or even by
-highly-connected nodes. Such attacks are well-known in the literature and in
-practice and demonstrated to be practical.
-
 \textbf{End to end correlation attacks}. This attack could occur by an
 adversary that can obtain the (sender identity, transaction, receiver identity)
 tuple discussed in Section~\ref{threat-model}. Such an attack is possible
@@ -331,8 +359,8 @@ only when the recipient uses a light wallet in such a manner that leaks the
 transaction that the recipient is interested in, as further described in
 Section~\cite{light-wallet-spec}. Otherwise, as all recipients download information about every
 transaction via a broadcast-like protocol, and hence an adversary cannot gain a
-true end-to-end view, unless the
-recipient themselves is compromised or malicious.
+true end-to-end view, unless the recipient themselves is compromised or
+malicious, which we do consider to be in scope for this attack.
 
 
 \section{Review of Network Privacy Approaches}
@@ -450,14 +478,15 @@ through the mixnet before it is published to the cryptocurrency network).
   Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
     & Dandelion++ & Tor & Mixnet  & Dandelion++ & Tor & Mixnet \\
  \hline
-    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & X & X & X \\
+    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & \Circle &
+    \Circle & \CIRCLE \\
  \hline
-    Content Fingerprinting & \Circle & \Circle & \Circle  & X & X & X \\
+    Behavior Fingerprinting & \Circle & \Circle & \Circle  & \Circle & \Circle & \Circle \\
  \hline
     Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle &
     \Circle \\
  \hline
-    End to end correlation & \Circle & \CIRCLE & \CIRCLE & X & X & X \\
+    End to End Correlation & \Diamond & \Diamond & \Diamond &  \Circle & \CIRCLE & \CIRCLE \\
 \end{tabular}
 \end{table}
 
