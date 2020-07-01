@@ -339,13 +339,11 @@ Section~\ref{out-of-scope}.
 
 \textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
 Fingerprinting user behavior such as the frequency and number of transactions
-made can lead to deanonymizing senders and receivers, even if shielded transactions
-are used. Behavior-based fingerprinting can be performed by a range of adversaries across many
-different settings. For example, a malicious light wallet node could observe
-the frequency and timing of a user’s transactions, or even the recipient of a
-user’s transaction could create a profile of the person making payments to them
-via timing and frequency of their payments, even if that user wishes to remain
-anonymous.
+made can lead to deanonymizing senders and receivers in the setting where light
+wallets are used, even the transaction is shielded.
+For example, a malicious light wallet node could observe
+the frequency and pattern of a user’s transactions, and build a pattern to
+match against over time.
 
 \textbf{Denial of service attacks}. Such attacks could be performed against
 Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
@@ -478,15 +476,14 @@ through the mixnet before it is published to the cryptocurrency network).
   Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
     & Dandelion++ & Tor & Mixnet  & Dandelion++ & Tor & Mixnet \\
  \hline
-    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & \Circle &
-    \Circle & \CIRCLE \\
+    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & \Circle & \Circle & \CIRCLE \\
  \hline
-    Behavior Fingerprinting & \Circle & \Circle & \Circle  & \Circle & \Circle & \Circle \\
+    Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$  & \Circle & \Circle & \Circle \\
  \hline
     Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle &
     \Circle \\
  \hline
-    End to End Correlation & \Diamond & \Diamond & \Diamond &  \Circle & \CIRCLE & \CIRCLE \\
+    End to End Correlation & $\Diamond$ & $\Diamond$ & $\Diamond$ &  \Circle & \CIRCLE & \CIRCLE \\
 \end{tabular}
 \end{table}
 
