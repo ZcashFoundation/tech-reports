@@ -248,6 +248,26 @@ can likely only be solved using a full broadcast system, which is already
 an option for full Zcash notes. For optimizations, we do not consider the
 access patterns on blocks to be in scope to the Zcash threat model.
 
+\subsection{Applicable Only for Unshielded Transactions.}
+
+\textbf{Epistemic attacks}. A network observer could perform an epistemic
+attack by observing unique routing information that allows for eventual
+deanonymization of that user. Again, such attacks are possible in Zcash because
+users do not control routing information for their transaction.
+
+One example of epistemic attacks against cryptocurrency networks involve the
+probability of ``super-connected'' nodes that can link the node from which a
+transaction originated~\cite{dandelion, fanti2018dandelion}.
+
+However, let's consider the case when only shielded transactions are used. In
+such a setting, the recipient of the transaction will not be disclosed if they
+are using a full node, and only disclosed if they fetch additional parameters
+if using a light wallet (such as by fetching the Zcash memo field). As such,
+since our analysis only considers the case where shielded transactions are
+used, we deem epistemic attacks such as those presented by the Dandelion
+authors as not applicable for Zcash.
+
+
 \subsection{Adversarial Model}
 
 We now review possible adversaries that may be motivated to compromise Zcash users'
@@ -277,19 +297,11 @@ over secret keys or server logs.
 \label{attack-vectors}
 
 We now review known attacks in the literature that have been described for
-decentralized systems similar to Zcash, although not all attacks have been
-demonstrated against Zcash specifically. Notably, these attacks leverage
+decentralized systems that are applicable to Zcash even when shielded addresses
+are used. Notably, some these attacks leverage
 decentralized networks where information about the network may or may not be
-consistent.
-
-\textbf{Epistemic attacks}. A network observer could perform an epistemic
-attack by observing unique routing information that allows for eventual
-deanonymization of that user. Again, such attacks are possible in Zcash because
-users do not control routing information for their transaction.
-
-One example of epistemic attacks against cryptocurrency networks involve the
-probability of ``super-connected'' nodes that can link the node from which a
-transaction originated~\cite{dandelion, fanti2018dandelion}.
+consistent, or require the use of light wallets in a setting where user
+behavior can be differentiated.
 
 \textbf{Fingerprinting attacks}. Fingerprinting user behavior when making a
 transaction can lead to deanonymizing that user, even if shielded transactions
@@ -425,6 +437,7 @@ through the mixnet before it is published to the cryptocurrency network).
   \label{network-zcash-assessment}
 
 \centering
+\small
 
   \CIRCLE=protects against; \Circle=does not protect against;
   ?=unknown; $\Diamond$=Not a threat;
@@ -437,8 +450,6 @@ through the mixnet before it is published to the cryptocurrency network).
   Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
     & Dandelion++ & Tor & Mixnet  & Dandelion++ & Tor & Mixnet \\
  \hline
-    Epistemic & \CIRCLE & \CIRCLE & ? & X & X & X \\
- \hline
     Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & X & X & X \\
  \hline
     Content Fingerprinting & \Circle & \Circle & \Circle  & X & X & X \\
@@ -446,7 +457,7 @@ through the mixnet before it is published to the cryptocurrency network).
     Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle &
     \Circle \\
  \hline
-    Passive end to end correlation & \Circle & \CIRCLE & \CIRCLE & X & X & X \\
+    End to end correlation & \Circle & \CIRCLE & \CIRCLE & X & X & X \\
 \end{tabular}
 \end{table}
 
