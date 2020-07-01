@@ -463,7 +463,7 @@ through the mixnet before it is published to the cryptocurrency network).
   \label{network-zcash-assessment}
 
 \centering
-\small
+\footnotesize
 
   \CIRCLE=protects against; \Circle=does not protect against;
   $\Diamond$=Not a threat in this setting;
@@ -472,18 +472,21 @@ through the mixnet before it is published to the cryptocurrency network).
 
   \medskip
 
-  \begin{tabular}{ c | c c c | c  c  c |}
+  \begin{tabular}{ c | c c c c | c c c c|}
   Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
-    & Dandelion++ & Tor & Mixnet  & Dandelion++ & Tor & Mixnet \\
+    & Dandelion++ & Tor & Tor + PIR & Mixnet  & Dandelion++ & Tor & Tor + PIR & Mixnet \\
  \hline
-    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & \Circle & \Circle & \CIRCLE \\
+    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & X & $\Diamond$ & \Circle
+    & \Circle & X & \CIRCLE \\
  \hline
-    Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$  & \Circle & \Circle & \Circle \\
+    Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & X& $\Diamond$  &
+    \Circle & \Circle & X & \Circle \\
  \hline
-    Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle &
-    \Circle \\
+    Denial of Service & \Circle & \Circle & X & \Circle & \Circle & \Circle &
+    X & \Circle \\
  \hline
-    End to End Correlation & $\Diamond$ & $\Diamond$ & $\Diamond$ &  \Circle & \CIRCLE & \CIRCLE \\
+    End to End Correlation & $\Diamond$ & $\Diamond$ & X & $\Diamond$ &
+    \Circle & \CIRCLE & X & \CIRCLE \\
 \end{tabular}
 \end{table}
 
