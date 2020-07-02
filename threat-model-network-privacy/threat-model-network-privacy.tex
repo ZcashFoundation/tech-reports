@@ -5,7 +5,7 @@
 \usepackage{multicol}
 \usepackage{multirow}
 \usepackage{amsmath}
-\usepackage{amsfonts}
+\usepackage{amsfonts, txfonts}
 \usepackage{ifsym}
 
 \usepackage{commath}
@@ -466,24 +466,25 @@ through the mixnet before it is published to the cryptocurrency network).
 \footnotesize
 
   \CIRCLE=protects against; \Circle=does not protect against;
-  $\Diamond$=Not a threat in this setting;
+  $\bigstar$=Not a threat in this setting;
 
-  Mixnet=Loopix-based routing;
+  Mixnet=Loopix-based routing capable of delaying packets but not creating
+  dummy transactions;
 
   \medskip
 
   \begin{tabular}{ c| c | c | c | c | c |}
     & Attack & Dandelion++ & Tor & Tor + PIR & Mixnet  \\
  \hline
-    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$ \\
-    & Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$  \\
+    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
+    & Behavior Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$  \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
-    & End to End Correlation & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$ \\
+    & End to End Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
 
     \hline
 
     \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \Circle & \CIRCLE \\
-    & Behavior Fingerprinting & \Circle & \CIRCLE & \CIRCLE & \Circle \\
+    & Behavior Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
     & End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE \\
 
