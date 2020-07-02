@@ -496,13 +496,19 @@ our findings here.
 
 \subsection{Analysis for Use of Full Nodes}
 
-\textbf{Dandelion.}
+\textbf{Dandelion++.}
 \textbf{Tor.}
 \textbf{Mixnets.}
 
 \subsection{Analysis for Use of Light Wallets}
 
-\textbf{Dandelion.}
+\textbf{Dandelion++.}
+While useful in a non-shielded context, Dandelion++ does not protect against
+end-to-end correlation attacks in the setting where light wallets are used.
+Specifically, while Dandelion++ protects against super nodes that can observe
+in-network gossip messages, Dandelion++ does not provide ``last-mile'' privacy,
+meaning that users can still be deanonymized by the light wallets they use.
+
 \textbf{Tor.}
 \textbf{Mixnets.}
 
