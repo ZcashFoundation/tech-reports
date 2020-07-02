@@ -472,21 +472,21 @@ through the mixnet before it is published to the cryptocurrency network).
 
   \medskip
 
-  \begin{tabular}{ c | c c c c | c c c c|}
-  Attack  & \multicolumn{3}{c | }{Full Node} & \multicolumn{3}{c| } {Light Wallet} \\
-    & Dandelion++ & Tor & Tor + PIR & Mixnet  & Dandelion++ & Tor & Tor + PIR & Mixnet \\
+  \begin{tabular}{ c| c | c | c | c | c |}
+    & Attack & Dandelion++ & Tor & Tor + PIR & Mixnet  \\
  \hline
-    Timing Fingerprinting & $\Diamond$ & $\Diamond$ & X & $\Diamond$ & \Circle
-    & \Circle & X & \CIRCLE \\
- \hline
-    Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & X& $\Diamond$  &
-    \Circle & \Circle & X & \Circle \\
- \hline
-    Denial of Service & \Circle & \Circle & X & \Circle & \Circle & \Circle &
-    X & \Circle \\
- \hline
-    End to End Correlation & $\Diamond$ & $\Diamond$ & X & $\Diamond$ &
-    \Circle & \CIRCLE & X & \CIRCLE \\
+    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$ \\
+    & Behavior Fingerprinting & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$  \\
+    & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
+    & End to End Correlation & $\Diamond$ & $\Diamond$ & $\Diamond$ & $\Diamond$ \\
+
+    \hline
+
+    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \Circle & \CIRCLE \\
+    & Behavior Fingerprinting & \Circle & \CIRCLE & \CIRCLE & \Circle \\
+    & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
+    & End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE \\
+
 \end{tabular}
 \end{table}
 
