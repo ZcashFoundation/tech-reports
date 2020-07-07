@@ -484,9 +484,9 @@ through the mixnet before it is published to the cryptocurrency network).
     \hline
 
     \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \CIRCLE \\
-    & Behavior Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle \\
+    & Behavior Fingerprinting & \Circle & \Circle & \CIRCLE & \Leftcircle \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
-    & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE \\
+    & On-Path End to End Correlation & \Circle & \Circle & \CIRCLE & \Circle \\
 
 \end{tabular}
 \end{table}
@@ -576,7 +576,7 @@ However, we note that mixnets in this setting cannot hide sender behavior, as
 doing so would require creating ``dummy'' transactions, which becomes
 complicated when doing so may require demonstrating adequate funds, etc.
 Mixnets can hide receiver behavior to an external network observer by injecting
-dummy packets, but cannot hide receiver behavor to the light wallet itself. As
+dummy packets, but cannot hide receiver behavior to the light wallet itself. As
 such, we grant a half circle for the capability of mixnets to prevent behavior
 based fingerprinting.
 
