@@ -497,8 +497,43 @@ our findings here.
 \subsection{Analysis for Use of Full Nodes}
 
 \textbf{Dandelion++.}
+In the full node setting, Dandelion++ does not meaningfully change privacy
+guarantees for users, as Dandelion++ only provides privacy in the setting of a
+super node with knowledge of the network graph. Because receivers of
+Zcash transactions operate in a full broadcast setting when using a full node,
+Dandelion++ does not add meaningful additional privacy guarantees against
+end-to-end correlation attacks. Further, the protocol does not add any
+protection against fingerprinting or denial of service attacks.
+
 \textbf{Tor.}
+Again, in the setting where full nodes are used, the receiver cannot be linked
+to a specific transaction, unless the receiver themselves is malicious. As
+such, while Tor can hide which transaction a user made, in this threat model
+that does not meaningfully change user privacy. Further, because Tor is a
+low-latency network, use of Tor will not hide fingerprintable information.
+
+\textbf{Tor + PIR.}
+Because receivers of Zcash when using a full node operate in full broadcast
+receiver mode---meaning that the user fetches the complete state of the network
+and consequently does not leak which transaction they are interested in---use
+of PIR in this setting does not meaningfully add privacy or security
+protections.
+
+As such, use of Tor + PIR in the setting where users operate with full nodes is
+the same as the use of Tor.
+
 \textbf{Mixnets.}
+While the use of a Loopix-based mixnet raises the cost to an adversary to
+conduct fingerprinting attacks that could result in end-to-end linking of
+senders and receivers, this protection does not meaningfully increase user
+security in the full node setting. Again, because receivers operate in a
+full-broadcast mode, end-to-end linking of senders and receivers is not
+possible when full nodes are used, unless the receiver themselves is
+compromised or malicious.
+
+As such, assuming receivers are honest, then mixnets do not meaningfully provide
+additional privacy or security to Zcash users over Tor when operating in the
+full node setting.
 
 \subsection{Analysis for Use of Light Wallets}
 
@@ -510,6 +545,18 @@ in-network gossip messages, Dandelion++ does not provide ``last-mile'' privacy,
 meaning that users can still be deanonymized by the light wallets they use.
 
 \textbf{Tor.}
+
+\textbf{Tor + PIR.}
+PIR in the setting of Zcash ensures that a receiver can hide which transaction
+they are interested in learning. Note that the use of PIR is helpful only in
+the setting where receivers use light wallets and are interested in fetching
+additional transaction details such as the memo field.
+
+Consequently, using both Tor and PIR protects against all forms of end-to-end
+correlation attacks including those faciliated by fingerprinting attacks, as
+even if a light wallet can fingerprint a sender of a
+transaction, the receiver will remain unknown because of the guarantees of PIR.
+
 \textbf{Mixnets.}
 
 \bibliographystyle{plain}
