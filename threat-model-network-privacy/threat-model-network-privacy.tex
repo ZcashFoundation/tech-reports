@@ -462,7 +462,6 @@ through the mixnet before it is published to the cryptocurrency network).
   security and privacy}
   \label{network-zcash-assessment}
 
-\centering
 \footnotesize
 
   \CIRCLE=protects against; \Circle=does not protect against;
@@ -473,20 +472,21 @@ through the mixnet before it is published to the cryptocurrency network).
 
   \medskip
 
-  \begin{tabular}{ c| c | c | c | c | c |}
-    & Attack & Dandelion++ & Tor & Tor + PIR & Mixnet  \\
+  \begin{tabular}{ p{4.5em}| c | c | c | c | c | c | c}
+    & Attack & Dandelion++ & PIR & Tor & Tor + PIR & Mixnet  & Mixnet + PIR \\
  \hline
-    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
-    & Behavior Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$  \\
-    & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
-    & On-Path End to End Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
+    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\bigstar$ & X &  $\bigstar$ & $\bigstar$ & $\bigstar$ & X \\
+    & Behavior Fingerprinting & $\bigstar$ & X & $\bigstar$ & $\bigstar$ & $\bigstar$  & X \\
+    & Denial of Service & \Circle & X & \Circle & \Circle & \Circle & X \\
+    & On-Path End to End Correlation & $\bigstar$ & X & $\bigstar$ & $\bigstar$ & $\bigstar$ & X \\
 
     \hline
 
-    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \CIRCLE \\
-    & Behavior Fingerprinting & \Circle & \Circle & \CIRCLE & \Leftcircle \\
-    & Denial of Service & \Circle & \Circle & \Circle & \Circle \\
-    & On-Path End to End Correlation & \Circle & \Circle & \CIRCLE & \Circle \\
+    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & X & \Circle & \CIRCLE & \LEFTcircle & X \\
+    & Behavior Fingerprinting & \Circle & X & \Circle & \CIRCLE & \LEFTcircle & X \\
+    & Denial of Service & \Circle & X & \Circle & \Circle & \Circle & X \\
+    & On-Path End to End Correlation & \Circle & X & \CIRCLE & \CIRCLE & \CIRCLE &
+    X \\
 
 \end{tabular}
 \end{table}
