@@ -545,8 +545,8 @@ additional privacy or security to Zcash users over Tor when operating in the
 full node setting.
 
 \textbf{Only PIR.}
-Does not protect against sender information leakage, but as the receiver
-receives in full broadcast, none of the above attacks apply.
+Because the receiver in a full node setting receives all transactions, use of
+PIR does not add any additional meaningful protections.
 
 \textbf{Tor + PIR.}
 Because receivers of Zcash when using a full node operate in full broadcast
@@ -555,12 +555,13 @@ and consequently does not leak which transaction they are interested in---use
 of PIR in this setting does not meaningfully add privacy or security
 protections.
 
-As such, use of Tor + PIR in the setting where users operate with full nodes is
-the same as the use of Tor.
+As such, use of Tor + PIR in the setting does not add meaningful privacy
+protections.
 
 \textbf{Mixnet + PIR.}
 Again, because users operate with full nodes, even though the sender's identity
-is hidden and so is any timing leaks, this does not add meaningful security.
+is hidden and so is any timing leaks, use of mixnets with PIR does not add
+meaningful security.
 
 \subsection{Analysis for Use of Light Wallets}
 
@@ -595,19 +596,19 @@ such, we grant a half circle for the capability of mixnets to prevent behavior
 based fingerprinting.
 
 \textbf{Only PIR.}
-We grant the property of protecting against on-path correlation attacks, as the
-light wallet node will not learn the receiver's query and therefore not protect
-against the light wallet associating a receiver with a specific transaction.
-However, PIR does not protect against timing and behavior leaks.
+PIR in the setting of Zcash ensures that a receiver can hide which transaction
+they are interested in learning.
+
+When only PIR is used without a network anonymity tool such as Tor or a mixnet,
+PIR can protect against on-path correlation attacks in the setting of light
+wallet usage, as the light wallet will not learn the contents of a receiver's
+query. However, PIR does not protect against the light wallet performing timing
+or behavior attacks, as the light wallet will learn the receiver's identity.
 
 \textbf{Tor + PIR.}
-PIR in the setting of Zcash ensures that a receiver can hide which transaction
-they are interested in learning. Note that the use of PIR is helpful in
-the setting where receivers use light wallets and are interested in fetching
-additional transaction details such as the memo field.
-
-We grant a full circle not only for protection against on-path correlation
-attacks, but also for protection against timing and behavior fingerprinting
+In the setting where senders and receivers use Tor along with PIR, we grant a
+full circle for protection against on-path correlation
+attacks, and also for protection against timing and behavior fingerprinting
 attacks. While nodes can learn that \emph{someone} is sending and receiving a
 transaction, nodes cannot learn either \emph{which} transaction, nor who the
 sender or receiver are. Hence, we maintain that simply learning timing and
@@ -615,14 +616,14 @@ behavior of these access patterns cannot be used to perform successful
 deanonymization attacks.
 
 \textbf{Mixnet + PIR.}
-Similarly to Tor, a mixnet used in conjunction with PIR protects against the
-nodes and light wallets from learning the identity of the sender and/or
-receiver of a transaction, as well as which transaction a specific user query
-is for.
+Similarly to Tor, we grant a full circle for protection against on-path
+correlation attacks as well as fingerprinting attacks when a mixnet used in
+conjunction with PIR. Similarly to Tor, mixnets hide the identity of senders
+and receivers from the destination of their request by forwarding traffic along
+a series of hops, and so both systems achieve the same security properties for
+these reasons.
 
-Similarly to Tor, we maintain that a mixnet with use of PIR protects against
-timing and fingerprinting attacks simply because of the above properties. While
-mixnets in addition can discourage timing-based attacks by adding latency to
+While mixnets can discourage timing-based attacks by adding latency to
 packets when they pass through the network, mixnets do not in themselves
 protect against behavior-based attacks. However, again we maintain that simply
 by removing the ability for nodes to learn either the identities of the sender
