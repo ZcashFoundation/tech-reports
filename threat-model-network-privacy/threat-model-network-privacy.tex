@@ -85,8 +85,6 @@ network, reviewing possible attacker profiles and their associated
 capabilities and powers, and finally reviewing a range of potential attack
 vectors.
 
-\mn[CK]{TODO add in the second half of this work after it is added}
-
 \section{Background} \label{background}
 
 \subsection{Zcash Shielded Transactions}
@@ -250,6 +248,12 @@ can likely only be solved using a full broadcast system, which is already
 an option for full Zcash notes. For optimizations, we do not consider the
 access patterns on blocks to be in scope to the Zcash threat model.
 
+\textbf{Malicious Senders or Receivers of Zcash}: We consider senders or
+receivers of Zcash which act honestly within the protocol but maliciously
+outside of the protocol (such as creating a ``honeypot'' for which Zcash users
+are tricked into sending valid transactions to) to be out of scope for our
+threat model.
+
 \subsection{Applicable Only for Unshielded Transactions.}
 
 \textbf{Epistemic attacks}. A network observer could perform an epistemic
@@ -350,15 +354,15 @@ Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
 against Zcash users, such as light wallets refusing to service certain classes
 of IP addresses.
 
-\textbf{End to end correlation attacks}. This attack could occur by an
+\textbf{On-Path end to end correlation attacks}. This attack could occur by an
 adversary that can obtain the (sender identity, transaction, receiver identity)
-tuple discussed in Section~\ref{threat-model}. Such an attack is possible
+tuple discussed in Section~\ref{threat-model}. By \emph{on-path end to end
+correlation}, we include attacks performed by nodes that are directly on the
+path between a sender and receiver when publishing or receiving a transaction.
+In the current model of Zcash, such an attacks are practical
 only when the recipient uses a light wallet in such a manner that leaks the
-transaction that the recipient is interested in, as further described in
-Section~\cite{light-wallet-spec}. Otherwise, as all recipients download information about every
-transaction via a broadcast-like protocol, and hence an adversary cannot gain a
-true end-to-end view, unless the recipient themselves is compromised or
-malicious, which we do consider to be in scope for this attack.
+transaction that the sender or receiver is publishing, as further described in
+Section~\cite{light-wallet-spec}.
 
 
 \section{Review of Network Privacy Approaches}
@@ -374,6 +378,8 @@ For brevity, we only review
 Dandelion~\cite{Fanti:2018:DLC,BojjaVenkatakrishnan:2017:DRB},
 Tor~\cite{tor-specification}, and
 Loopix-based mixnets~\cite{Piotrowska:2017:LAS}.
+Further, we review private information retrieval (PIR) as a method which can be
+used in conjunction with the above systems.
 
 \textbf{Dandelion.}
 Dandelion~\cite{BojjaVenkatakrishnan:2017:DRB} and
@@ -439,6 +445,16 @@ the network. However, alternative network distribution mechanisms can be used,
 but similarly may be subject to epistemic and path-routing attacks similar to
 other distributed networks.
 
+\textbf{Private Information Retrieval (PIR).}
+Even though the above network anonymity systems disassociate a sender or
+receiver's identity from the transaction, nodes can still observe which blocks
+are being fetched and perform fingerprinting attacks using this information.
+One mechanism that can be used in conjunction with network anonymity tools is
+private information retrieval (PIR)~\cite{pir}, which allows users to query information
+while preventing the service that hosts this information from learning the
+query.
+
+
 \section{Assessment of Network Privacy Approaches to Zcash Privacy}
 \label{network-privacy-assessment}
 
@@ -497,8 +513,6 @@ through the mixnet before it is published to the cryptocurrency network).
 
 We summarize our results in Table~\ref{network-zcash-assessment}, but describe
 our findings here.
-
-\mn[CK]{TODO describe on-path correlation above and distinguish this below}
 
 \subsection{Analysis for Use of Full Nodes}
 
