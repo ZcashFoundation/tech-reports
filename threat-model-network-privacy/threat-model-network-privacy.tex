@@ -501,12 +501,11 @@ through the mixnet before it is published to the cryptocurrency network).
 
     \hline
 
-    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle & \Circle & \CIRCLE \\
+    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle & \CIRCLE & \CIRCLE \\
     & Behavior Fingerprinting & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
-    & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \Circle &
-    \CIRCLE & \CIRCLE \\
+    & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
 
 \end{tabular}
 \end{table}
@@ -596,31 +595,40 @@ such, we grant a half circle for the capability of mixnets to prevent behavior
 based fingerprinting.
 
 \textbf{Only PIR.}
-We do not grant this property because even though the transaction that the receiver
-fetches is hidden from the light wallet, the light wallet can learn the
-receiver's identity as well as observe behavior patterns such as frequency of
-access.
+We grant the property of protecting against on-path correlation attacks, as the
+light wallet node will not learn the receiver's query and therefore not protect
+against the light wallet associating a receiver with a specific transaction.
+However, PIR does not protect against timing and behavior leaks.
 
 \textbf{Tor + PIR.}
 PIR in the setting of Zcash ensures that a receiver can hide which transaction
-they are interested in learning. Note that the use of PIR is helpful only in
+they are interested in learning. Note that the use of PIR is helpful in
 the setting where receivers use light wallets and are interested in fetching
 additional transaction details such as the memo field.
 
-We grant a full circle because the light wallet does not learn
-the sender and receiver identity nor the transaction that is being fetched.
-Note that the light wallet can still observe information such as frequency of
-access, but it is unclear how the light wallet can meaningfully use only this
-information.
+We grant a full circle not only for protection against on-path correlation
+attacks, but also for protection against timing and behavior fingerprinting
+attacks. While nodes can learn that \emph{someone} is sending and receiving a
+transaction, nodes cannot learn either \emph{which} transaction, nor who the
+sender or receiver are. Hence, we maintain that simply learning timing and
+behavior of these access patterns cannot be used to perform successful
+deanonymization attacks.
 
 \textbf{Mixnet + PIR.}
 Similarly to Tor, a mixnet used in conjunction with PIR protects against the
-light wallet from learning both the identity of the sender and/or receiver. The
-mixnet can discourage timing attacks but as it will not create dummy
-transactions on behalf of the user, cannot protect against analysis such as
-determining frequency of transactions. We deem the protection offered by
-mixnets used with PIR to be slightly stronger than Tor + PIR because of timing
-unlinkability, but all other protections in this model remain the same.
+nodes and light wallets from learning the identity of the sender and/or
+receiver of a transaction, as well as which transaction a specific user query
+is for.
+
+Similarly to Tor, we maintain that a mixnet with use of PIR protects against
+timing and fingerprinting attacks simply because of the above properties. While
+mixnets in addition can discourage timing-based attacks by adding latency to
+packets when they pass through the network, mixnets do not in themselves
+protect against behavior-based attacks. However, again we maintain that simply
+by removing the ability for nodes to learn either the identities of the sender
+and receiver, as well as the transaction query, that mixnets protect against
+attackers successfully performing fingerprinting attacks resulting in user
+deanonymization.
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
