@@ -195,7 +195,8 @@ are interested in, the sender and receiver could be linked to a particular
 transaction.
 
 
-\textbf{Unique fingerprints of user habits}: By observing behavior of Zcash
+\textbf{Unique fingerprints of user habits, coupled to sender or receiver
+identity}: By observing behavior of Zcash
 transactions sent over the network, an adversary could start to build a
 “fingerprint” of a user’s behavior, partially when using machine learning
 algorithms to classify traffic. Information that is exposed in this
@@ -206,6 +207,18 @@ sender to receiver.
 Further, ``on-chain'' information could also allow for fingerprintability. For
 example, fees and timing of transactions could possibly provide additional
 information to an observer.
+
+\subsubsection{Deferred Threats for Future Improvements}
+
+\textbf{Malicious Senders or Receivers of Zcash}:
+Senders or receivers of Zcash can act honestly within the protocol but
+maliciously outside of the protocol (such as creating a ``honeypot'' for which
+Zcash users are tricked into sending valid transactions to).
+
+While preventing malicious
+senders or receivers of Zcash from compromising the other part is certainly
+within the threat model of Zcash, we defer addressing this category of threats
+for future improvements.
 
 \subsubsection{Out of Scope}
 \label{out-of-scope}
@@ -247,12 +260,6 @@ that block, or its popularity. However, preventing such information leaks
 can likely only be solved using a full broadcast system, which is already
 an option for full Zcash notes. For optimizations, we do not consider the
 access patterns on blocks to be in scope to the Zcash threat model.
-
-\textbf{Malicious Senders or Receivers of Zcash}: We consider senders or
-receivers of Zcash which act honestly within the protocol but maliciously
-outside of the protocol (such as creating a ``honeypot'' for which Zcash users
-are tricked into sending valid transactions to) to be out of scope for our
-threat model.
 
 \subsection{Applicable Only for Unshielded Transactions.}
 
@@ -344,7 +351,8 @@ Section~\ref{out-of-scope}.
 \textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
 Fingerprinting user behavior such as the frequency and number of transactions
 made can lead to deanonymizing senders and receivers in the setting where light
-wallets are used, even the transaction is shielded.
+wallets are used, even the transaction is shielded and timing information is
+removed (such as by sending the transaction through a mixnet).
 For example, a malicious light wallet node could observe
 the frequency and pattern of a user’s transactions, and build a pattern to
 match against over time.
@@ -453,6 +461,10 @@ One mechanism that can be used in conjunction with network anonymity tools is
 private information retrieval (PIR)~\cite{pir}, which allows users to query information
 while preventing the service that hosts this information from learning the
 query.
+
+Note here we do not specify \emph{which} PIR design to use, we simply assume
+the properties of a PIR implementation, for which the content of the user's
+query is hidden from the service tasked with responding to that query.
 
 
 \section{Assessment of Network Privacy Approaches to Zcash Privacy}
