@@ -473,20 +473,24 @@ through the mixnet before it is published to the cryptocurrency network).
   \medskip
 
   \begin{tabular}{ p{4.5em}| c | c | c | c | c | c | c}
-    & Attack & Dandelion++ & PIR & Tor & Tor + PIR & Mixnet  & Mixnet + PIR \\
+    & & & & & \multicolumn{3}{c}{PIR}  \\
+    & Attack & Dandelion++ & Tor & Mixnet  & Only PIR & Tor & Mixnet \\
  \hline
-    \multirow{4}{*}{Full Node}  & Timing Fingerprinting & $\bigstar$ & X &  $\bigstar$ & $\bigstar$ & $\bigstar$ & X \\
-    & Behavior Fingerprinting & $\bigstar$ & X & $\bigstar$ & $\bigstar$ & $\bigstar$  & X \\
-    & Denial of Service & \Circle & X & \Circle & \Circle & \Circle & X \\
-    & On-Path End to End Correlation & $\bigstar$ & X & $\bigstar$ & $\bigstar$ & $\bigstar$ & X \\
+    \multirow{4}{*}{Full Node}  & Timing Fingerprinting &
+    $\bigstar$ &   $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
+    & Behavior Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ &
+    $\bigstar$ & $\bigstar$  & $\bigstar$ \\
+    & Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle & \Circle \\
+    & On-Path End to End Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
 
     \hline
 
-    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & X & \Circle & \CIRCLE & \LEFTcircle & X \\
-    & Behavior Fingerprinting & \Circle & X & \Circle & \CIRCLE & \LEFTcircle & X \\
-    & Denial of Service & \Circle & X & \Circle & \Circle & \Circle & X \\
-    & On-Path End to End Correlation & \Circle & X & \CIRCLE & \CIRCLE & \CIRCLE &
-    X \\
+    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle & \Circle & \CIRCLE \\
+    & Behavior Fingerprinting & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
+    & Denial of Service & \Circle & \Circle & \Circle & \Circle &  \Circle &
+    \Circle \\
+    & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \Circle &
+    \CIRCLE & \CIRCLE \\
 
 \end{tabular}
 \end{table}
@@ -514,16 +518,6 @@ such, while Tor can hide which transaction a user made, in this threat model
 that does not meaningfully change user privacy. Further, because Tor is a
 low-latency network, use of Tor will not hide fingerprintable information.
 
-\textbf{Tor + PIR.}
-Because receivers of Zcash when using a full node operate in full broadcast
-receiver mode---meaning that the user fetches the complete state of the network
-and consequently does not leak which transaction they are interested in---use
-of PIR in this setting does not meaningfully add privacy or security
-protections.
-
-As such, use of Tor + PIR in the setting where users operate with full nodes is
-the same as the use of Tor.
-
 \textbf{Mixnets.}
 While the use of a Loopix-based mixnet raises the cost to an adversary to
 conduct fingerprinting attacks that could result in end-to-end linking of
@@ -536,6 +530,24 @@ compromised or malicious.
 As such, assuming receivers are honest, then mixnets do not meaningfully provide
 additional privacy or security to Zcash users over Tor when operating in the
 full node setting.
+
+\textbf{Only PIR.}
+Does not protect against sender information leakage, but as the receiver
+receives in full broadcast, none of the above attacks apply.
+
+\textbf{Tor + PIR.}
+Because receivers of Zcash when using a full node operate in full broadcast
+receiver mode---meaning that the user fetches the complete state of the network
+and consequently does not leak which transaction they are interested in---use
+of PIR in this setting does not meaningfully add privacy or security
+protections.
+
+As such, use of Tor + PIR in the setting where users operate with full nodes is
+the same as the use of Tor.
+
+\textbf{Mixnet + PIR.}
+Again, because users operate with full nodes, even though the sender's identity
+is hidden and so is any timing leaks, this does not add meaningful security.
 
 \subsection{Analysis for Use of Light Wallets}
 
@@ -556,17 +568,6 @@ network, even if the receiver IP address is hidden from the light wallet, the
 light wallet or a network observer can still observe the user's timing and
 behavior when fetching transaction details.
 
-\textbf{Tor + PIR.}
-PIR in the setting of Zcash ensures that a receiver can hide which transaction
-they are interested in learning. Note that the use of PIR is helpful only in
-the setting where receivers use light wallets and are interested in fetching
-additional transaction details such as the memo field.
-
-Consequently, using both Tor and PIR protects against all forms of end-to-end
-correlation attacks including those faciliated by fingerprinting attacks, as
-even if a light wallet can fingerprint a sender of a
-transaction, the receiver will remain unknown because of the guarantees of PIR.
-
 \textbf{Mixnets.}
 In the setting for light wallets, mixnets can prevent timing-based attacks, as
 packets are delayed when forwarded through a mixnet, and consequently make
@@ -579,6 +580,33 @@ Mixnets can hide receiver behavior to an external network observer by injecting
 dummy packets, but cannot hide receiver behavior to the light wallet itself. As
 such, we grant a half circle for the capability of mixnets to prevent behavior
 based fingerprinting.
+
+\textbf{Only PIR.}
+We do not grant this property because even though the transaction that the receiver
+fetches is hidden from the light wallet, the light wallet can learn the
+receiver's identity as well as observe behavior patterns such as frequency of
+access.
+
+\textbf{Tor + PIR.}
+PIR in the setting of Zcash ensures that a receiver can hide which transaction
+they are interested in learning. Note that the use of PIR is helpful only in
+the setting where receivers use light wallets and are interested in fetching
+additional transaction details such as the memo field.
+
+We grant a full circle because the light wallet does not learn
+the sender and receiver identity nor the transaction that is being fetched.
+Note that the light wallet can still observe information such as frequency of
+access, but it is unclear how the light wallet can meaningfully use only this
+information.
+
+\textbf{Mixnet + PIR.}
+Similarly to Tor, a mixnet used in conjunction with PIR protects against the
+light wallet from learning both the identity of the sender and/or receiver. The
+mixnet can discourage timing attacks but as it will not create dummy
+transactions on behalf of the user, cannot protect against analysis such as
+determining frequency of transactions. We deem the protection offered by
+mixnets used with PIR to be slightly stronger than Tor + PIR because of timing
+unlinkability, but all other protections in this model remain the same.
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
