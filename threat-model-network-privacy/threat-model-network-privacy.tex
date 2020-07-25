@@ -167,7 +167,7 @@ they must query the light wallet for those details separately. As such, the
 light wallet can link a recipient to a particular transaction in the case the
 user queries for extended transaction fields for a specific block~\cite{light-wallet-spec}.
 
-\section{Zcash Threat Model Assuming Use of Shielded Transactions}
+\section{Zcash Threat Model}
 \label{threat-model}
 
 \subsection{Analysis of Sensitive Information Exposure}
@@ -472,7 +472,8 @@ the properties of a PIR implementation, for which the content of the user's
 query is hidden from the service tasked with responding to that query.
 
 
-\section{Assessment of Network Privacy Approaches to Zcash Privacy}
+\section{Assessment of Network Privacy Approaches to Zcash Privacy (Assuming
+the Use of Shielded Transactions)}
 \label{network-privacy-assessment}
 
 We now review the extent to which Dandelion++, Tor, and a Loopix-based mixnet
@@ -492,7 +493,7 @@ through the mixnet before it is published to the cryptocurrency network).
 
 \begin{table}[t]
   \caption{Effectiveness of network privacy mechanisms for Zcash
-  security and privacy}
+  security and privacy, assuming the use of shielded transactions}
   \label{network-zcash-assessment}
 
 \footnotesize
