@@ -1,3 +1,8 @@
+% TODO
+% 1. Identity should be network identity
+% Add additional assessment for unshielded
+% more discussion of shielded vs unshielded identifiers
+% clarify better timing vs behavior
 \documentclass{article}
 
 \usepackage{amsthm, amsfonts, amssymb, amsmath, graphicx, cancel, framed}
@@ -68,8 +73,8 @@ to perform such deanonymization attacks, and what such adversaries require to
 do so.
 
 In this technical report, we consider the above questions, and present the
-threat model for Zcash more formally, assuming the use of shielded
-transactions. We identify what constitutes sensitive information in the Zcash
+threat model for Zcash more formally, \textit{assuming the use of shielded
+transactions}. We identify what constitutes sensitive information in the Zcash
 ecosystem, what adversaries may exist, and enumerate the attack vectors that
 such adversaries may employ. From this model, we then consider several
 different network privacy mechanisms, and analyze the extent to which these
@@ -162,7 +167,7 @@ they must query the light wallet for those details separately. As such, the
 light wallet can link a recipient to a particular transaction in the case the
 user queries for extended transaction fields for a specific block~\cite{light-wallet-spec}.
 
-\section{Zcash Threat Model}
+\section{Zcash Threat Model Assuming Use of Shielded Transactions}
 \label{threat-model}
 
 \subsection{Analysis of Sensitive Information Exposure}
@@ -642,6 +647,25 @@ by removing the ability for nodes to learn either the identities of the sender
 and receiver, as well as the transaction query, that mixnets protect against
 attackers successfully performing fingerprinting attacks resulting in user
 deanonymization.
+
+\section{Future Improvements for Zcash Network Privacy}
+
+\subsection{Privacy Improvements for Unshielded Transactions}
+
+While the end goal for Zcash is to move all users to use shielded transactions,
+the reality today is that only a very small percentage of Zcash is transacted
+using shielded transactions. In the interim to achieving the goal of
+ubiquitous shielded transactions, we can take intermediate steps to improve
+the privacy for Zcash users in the unshielded setting.
+
+With that said, incorporating a variant of the Dandelion++ gossip protocol is a
+lightweight and immediate first step to improving the privacy of unshielded
+transaction. However, we recognize that stronger protections are required in
+following steps to provide stronger security and privacy guarantees.
+
+\subsection{Privacy Improvements for Shielded Transactions}
+
+\section{Conclusion}
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
