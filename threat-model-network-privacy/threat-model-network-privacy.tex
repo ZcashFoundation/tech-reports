@@ -666,6 +666,30 @@ following steps to provide stronger security and privacy guarantees.
 
 \subsection{Privacy Improvements for Shielded Transactions}
 
+In looking at Table~\ref{network-zcash-assessment}, the strongest protections
+are offered by the combination of PIR along with a network anonymity tool such
+as Tor or a mixnet. Because use of an anonymity network protects against
+directly leaking the network identity of a user, and PIR protects against
+disclosing the contents of a user's query, the combination of these methods
+leaves little room for an attacker to gain advantage.
+
+While typically the
+ability for mixnets to offer protection
+against timing or behavior fingerprinting attacks provides some competitive
+advantage over Tor, in the setting where shielded transactions are used along
+with PIR, this advantage becomes minimal. It is unclear what advantage an
+attacker could gain simply by observing network patterns, without also learning
+the contents of a user's query or a user's identity, particularly when all
+traffic is for the same higher-level application---that of fetching
+transactions from the Zcash
+blockchain---as opposed to web traffic, which can differ depending on the
+website visited or application used.
+
+As such, our immediate-term plan to proceed with Tor, which is
+immediately deployable and has mature security analysis and availability. We
+will then assess PIR as a second step. We will continue to observe the maturity
+of mixnets as a possible option in the future.
+
 \section{Conclusion}
 
 In this technical report, we sketched out a more formalized threat model for
