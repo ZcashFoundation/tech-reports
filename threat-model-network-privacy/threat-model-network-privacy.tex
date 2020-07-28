@@ -519,7 +519,8 @@ through the mixnet before it is published to the cryptocurrency network).
 
     \hline
 
-    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & \Circle & \Circle & \CIRCLE & \Circle & \CIRCLE & \CIRCLE \\
+    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & $\bigstar$ &
+    $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
     & Behavior Fingerprinting & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
@@ -578,8 +579,8 @@ protections.
 
 \textbf{Mixnet + PIR.}
 Again, because users operate with full nodes, even though the sender's identity
-is hidden and so is any timing leaks, use of mixnets with PIR does not add
-meaningful security.
+is hidden and so are any timing or behavior leaks, use of mixnets with PIR does
+not add meaningful security.
 
 \subsection{Analysis for Use of Light Wallets}
 
@@ -595,23 +596,42 @@ Because receivers can be distinguished from other in a light wallet setting
 when they fetch additional transaction details (because these users only fetch
 additional details for the transaction they are specifically interested in),
 adversaries can leverage timing and behavior-based fingerprinting attacks in
-the light wallet setting, even when Tor is used. Because Tor is a low-latency
+the light wallet setting, even when Tor is used.
+
+Because Tor is a low-latency
 network, even if the receiver IP address is hidden from the light wallet, the
 light wallet or a network observer can still observe the user's timing and
-behavior when fetching transaction details.
+behavior when fetching transaction details. However, because a user's
+transaction is published to the Zcash network, and then published as the next
+block in the Zcash blockchain with a series of other transactions, it is
+unclear how much of an advantage an adversary has to perform end-to-end
+timing-based attacks in this setting. Typically end-to-end timing attacks
+require performing packet correlation on the order of seconds, whereas the
+latency in a network like Zcash is on the order of minutes. As such, we deem
+timing-based attacks to be not applicable even when light wallets are used for
+Zcash.
 
 \textbf{Mixnets.}
 In the setting for light wallets, mixnets can prevent timing-based attacks, as
 packets are delayed when forwarded through a mixnet, and consequently make
 performing such attacks significantly more difficult for an adversary.
 
-However, we note that mixnets in this setting cannot hide sender behavior, as
-doing so would require creating ``dummy'' transactions, which becomes
-complicated when doing so may require demonstrating adequate funds, etc.
-Mixnets can hide receiver behavior to an external network observer by injecting
-dummy packets, but cannot hide receiver behavior to the light wallet itself. As
-such, we grant a half circle for the capability of mixnets to prevent behavior
-based fingerprinting.
+However, we note that mixnets in this setting cannot meaningfully hide sender
+behavior, as even though the mixnet might inject
+``dummy'' packets, observers of the network will still know that a user is
+publishing a transaction to the Zcash network.
+
+Similarly to described above for the ability of an adversary to use timing of
+Zcash transactions to infer information about the sender, receiver, and/or
+contents, we deem such timing information as not applicable in the setting even
+where mixnets are used. While mixnets do hide timing information for packets by
+delaying messages sent through the mix network, in Loopix-based systems, such
+delays are on the order of seconds or even microseconds, where as we observed
+above, the Zcash network iteself imposes delays on the order of mixnets as
+transactions are added to the Zcash blockchain. Performing an end-to-end
+correlation attack simply by observing the endpoints (nodes servicing the
+sender or receiver of the transaction) will have difficulty performing such a
+timing correlation even in Zcash today.
 
 \textbf{Only PIR.}
 PIR in the setting of Zcash ensures that a receiver can hide which transaction
