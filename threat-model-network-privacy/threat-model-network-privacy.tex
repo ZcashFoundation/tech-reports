@@ -476,20 +476,21 @@ query is hidden from the service tasked with responding to that query.
 the Use of Shielded Transactions)}
 \label{network-privacy-assessment}
 
-We now review the extent to which Dandelion++, Tor, and a Loopix-based mixnet
+We now review the extent to which Dandelion++, Tor, some generic PIR mechanism,
+and a Loopix-based mixnet
 protect against the existing network-based attacks against Zcash described in
 Section~\ref{attack-vectors}.
-
 Note that we assume an attacker does not control either the sender or receiver
-of funds. We assume the mixnet only delays transactions and does not generate
-dummy packets (as generating dummy transactions that are verifiable require
-higher-level application support, and cannot be a property entirely provided by
-the mixnet itself).
+of funds.
 
 We assume the mixnet is a \emph{seperate} anonymity network entirely, such as
 in the style of Nym, and is \emph{not} part of the cryptocurrency network
 itself (meaning that the initiator of a transaction forwards this transaction
 through the mixnet before it is published to the cryptocurrency network).
+
+We assume that the PIR mechanism is used by the user to look up transactions in
+such a way that the node serving that transaction cannot infer the contents of
+the user's query.
 
 \begin{table}[t]
   \caption{Effectiveness of network privacy mechanisms for Zcash
@@ -661,13 +662,15 @@ and receivers from the destination of their request by forwarding traffic along
 a series of hops, and so both systems achieve the same security properties for
 these reasons.
 
-While mixnets can discourage timing-based attacks by adding latency to
-packets when they pass through the network, mixnets do not in themselves
-protect against behavior-based attacks. However, again we maintain that simply
+Again, we maintain that simply
 by removing the ability for nodes to learn either the identities of the sender
-and receiver, as well as the transaction query, that mixnets protect against
-attackers successfully performing fingerprinting attacks resulting in user
-deanonymization.
+and receiver, as well as the contents of the transaction query, that mixnets
+protect against attackers successfully performing fingerprinting attacks
+resulting in user deanonymization. Note however that this protection is
+achieved simply by routing user's transactions among the mix network of
+independently-operated nodes, and the addition of message latency (to
+discourage timing fingerprinting) and dummy packets (to discourage behavior
+fingerprinting) does not add meaningful additional protections in this setting.
 
 \section{Future Improvements for Zcash Network Privacy}
 
