@@ -177,6 +177,10 @@ these observations with threats that are typical for a applications where users
 are browsing the web, exchanging email, or engaging in a messaging platform,
 for example.
 
+We assume the use of shielded transactions for the below analysis, as
+end-to-end correlation via bitwise linkability is simple in an unshielded
+setting.
+
 \textbf{Observation One: Consensus in blockchains adds more latency than
 mixnets that are tuned for web traffic.}
 While different cryptocurrency networks have a range of consensus mechanisms,
@@ -229,10 +233,18 @@ through to a receiver (without encoding the possibility that a transaction is
 for zero value, which opens the door to DoS attacks). Hence, such noise in a
 blockchain setting will never be end-to-end. While we cannot give concrete
 estimates as to how less effective noise that is dropped before transactions
-are added to the blockchiain is as opposed to end-to-end noise that is possible
+are added to the blockchain is as opposed to end-to-end noise that is possible
 for other applications, we simply wish to point out that security claims about
 added noise to prevent end-to-end correlation attacks do not map neatly into
 blockchain settings from other settings such as for web traffic.
+
+\textbf{Takeaways}
+While adversaries can certainly perform end-to-end attacks in a blockchain
+setting, the above observations indicate that doing so requires different
+techniques than in other application settings such as for web traffic or email
+applications. Hence, we consider end-to-end passive fingerprinting
+as out of scope for the threat model of Zcash, assuming the use of shielded
+transactions.
 
 
 \section{Zcash Threat Model}
@@ -368,6 +380,35 @@ attack on the network.
 \textbf{End-to-End Timing Attacks.}
 
 
+\textbf{Fingerprinting attacks by Observing Timing of Transactions}.
+Fingerprinting timing of when transactions are made
+can lead to deanonymizing the sender and
+receiver \emph{only} in the light wallet setting, even if shielded transactions
+are used. We note that in the full node setting, such attacks are not possible
+due to the full broadcast nature once transactions are published to the Zcash
+blockchain.
+
+However, timing-based fingerprinting can be performed by a
+malicious light wallet node or even a malicious or compromised recipient. In
+this setting, these parties could build a profile of the person making payments
+to them by observing the timing of their payments, even if the sender wishes to remain
+anonymous.
+
+While this attack can be amplified when information external to Zcash, such as
+if a user visits a website and exposes their IP address, and then makes a Zcash
+transaction, possibly allowing the recipient to link the two events. However,
+we consider this event to be out of scope, as further discussed in
+Section~\ref{out-of-scope}.
+
+\textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
+Fingerprinting user behavior such as the frequency and number of transactions
+made can lead to deanonymizing senders and receivers in the setting where light
+wallets are used, even the transaction is shielded and timing information is
+removed (such as by sending the transaction through a mixnet).
+For example, a malicious light wallet node could observe
+the frequency and pattern of a user’s transactions, and build a pattern to
+match against over time.
+
 \subsection{Adversarial Model}
 
 We now review possible adversaries that may be motivated to compromise Zcash users'
@@ -402,35 +443,6 @@ are used. Notably, some these attacks leverage
 decentralized networks where information about the network may or may not be
 consistent, or require the use of light wallets in a setting where user
 behavior can be differentiated.
-
-\textbf{Fingerprinting attacks by Observing Timing of Transactions}.
-Fingerprinting timing of when transactions are made
-can lead to deanonymizing the sender and
-receiver \emph{only} in the light wallet setting, even if shielded transactions
-are used. We note that in the full node setting, such attacks are not possible
-due to the full broadcast nature once transactions are published to the Zcash
-blockchain.
-
-However, timing-based fingerprinting can be performed by a
-malicious light wallet node or even a malicious or compromised recipient. In
-this setting, these parties could build a profile of the person making payments
-to them by observing the timing of their payments, even if the sender wishes to remain
-anonymous.
-
-While this attack can be amplified when information external to Zcash, such as
-if a user visits a website and exposes their IP address, and then makes a Zcash
-transaction, possibly allowing the recipient to link the two events. However,
-we consider this event to be out of scope, as further discussed in
-Section~\ref{out-of-scope}.
-
-\textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
-Fingerprinting user behavior such as the frequency and number of transactions
-made can lead to deanonymizing senders and receivers in the setting where light
-wallets are used, even the transaction is shielded and timing information is
-removed (such as by sending the transaction through a mixnet).
-For example, a malicious light wallet node could observe
-the frequency and pattern of a user’s transactions, and build a pattern to
-match against over time.
 
 \textbf{Denial of service attacks}. Such attacks could be performed against
 Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
@@ -584,18 +596,11 @@ the user's query.
     & & & & & \multicolumn{3}{c}{PIR}  \\
     & Attack & Dandelion++ & Tor & Mixnet  & Only PIR & Tor & Mixnet \\
  \hline
-    \multirow{4}{*}{Full Node}  & Timing Fingerprinting &
-    $\bigstar$ &   $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
-    & Behavior Fingerprinting & $\bigstar$ & $\bigstar$ & $\bigstar$ &
-    $\bigstar$ & $\bigstar$  & $\bigstar$ \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle & \Circle \\
     & On-Path End to End Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
 
     \hline
 
-    \multirow{4}{*}{Light Wallet} & Timing Fingerprinting & $\bigstar$ &
-    $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
-    & Behavior Fingerprinting & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
     & Denial of Service & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
     & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
