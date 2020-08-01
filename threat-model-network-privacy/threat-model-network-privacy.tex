@@ -620,7 +620,7 @@ super node with knowledge of the network graph. Because receivers of
 Zcash transactions operate in a full broadcast setting when using a full node,
 Dandelion++ does not add meaningful additional privacy guarantees against
 end-to-end correlation attacks. Further, the protocol does not add any
-protection against fingerprinting or denial of service attacks.
+protection against denial of service attacks.
 
 \textbf{Tor.}
 Again, in the setting where full nodes are used, the receiver cannot be linked
@@ -633,7 +633,9 @@ low-latency network, use of Tor will not hide fingerprintable information.
 While the use of a Loopix-based mixnet raises the cost to an adversary to
 conduct fingerprinting attacks that could result in end-to-end linking of
 senders and receivers, this protection does not meaningfully increase user
-security in the full node setting. Again, because receivers operate in a
+security in the full node setting or in light of the observations of the
+inherent protections that blockchains offer against these attacks described in
+Section~\ref{observations}. Most specifically, because receivers operate in a
 full-broadcast mode, end-to-end linking of senders and receivers is not
 possible when full nodes are used, unless the receiver themselves is
 compromised or malicious.
@@ -674,8 +676,7 @@ meaning that users can still be deanonymized by the light wallets they use.
 Because receivers can be distinguished from other in a light wallet setting
 when they fetch additional transaction details (because these users only fetch
 additional details for the transaction they are specifically interested in),
-adversaries can leverage timing and behavior-based fingerprinting attacks in
-the light wallet setting, even when Tor is used.
+an on-path adversary such as a light wallet could perform correlation attacks.
 
 Because Tor is a low-latency
 network, even if the receiver IP address is hidden from the light wallet, the
@@ -684,7 +685,8 @@ behavior when fetching transaction details. However, because a user's
 transaction is published to the Zcash network, and then published as the next
 block in the Zcash blockchain with a series of other transactions, it is
 unclear how much of an advantage an adversary has to perform end-to-end
-timing-based attacks in this setting. Typically end-to-end timing attacks
+timing-based attacks in this setting (as further discussed in
+Section~\ref{observations}). Typically end-to-end timing attacks
 require performing packet correlation on the order of seconds, whereas the
 latency in a network like Zcash is on the order of minutes. As such, we deem
 timing-based attacks to be not applicable even when light wallets are used for
