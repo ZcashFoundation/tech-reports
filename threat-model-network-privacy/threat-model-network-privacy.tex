@@ -51,39 +51,41 @@
     \maketitle
 \section{Introduction}
 
-The amount of data leaked about individuals online is ever growing.
-Financial data in particular
-provides a highly granular lens about personal daily habits, but securing one's
-own financial privacy is difficult due to the value of tracking financial
-habits for advertising purposes. Fortunately, Zcash ensures strong financial
-privacy using zero-knowledge proofs along with randomization
+The amount of data leaked about individuals online is ever growing; and
+financial data in particular
+provides a highly granular lens about personal daily habits.
+Zcash is a cryptocurrency that ensures strong financial
+privacy for users by leveraging zero-knowledge proofs and randomization
 techniques~\cite{zcash-spec} to
-protect against data leakage that could lead to deanonymization of a payer or
-recipient of Zcash. This approach ensures that the raw bytes of a
-Zcash \emph{shielded} transaction cannot leak identifiable information about the
-payer, payee, or amount.
+protect against data leakage that could otherwise lead to deanonymization of a
+payer or
+recipient of Zcash. Use of zero-knowledge proofs in this manner ensures that
+the raw bytes of a Zcash \emph{shielded} transaction cannot leak identifiable
+information about the payer, payee, or amount.
 
-However, an adversary observing the network over which Zcash clients and nodes
-send transactions could perform passive or active attacks with the goal of
-linking
+However, an adversary observing the Zcash network
+could perform passive or active attacks with the goal of linking
 users and their end recipients, even if that adversary cannot decrypt the Zcash
-shielded transaction directly. Consequently, it is important to assess the
-how such adversaries could be successful, what information is required in order
-to perform such deanonymization attacks, and what such adversaries require to
-do so.
+shielded transaction directly. Consequently, ensuring additional mechanisms to
+protect against network-level adversaries seeking to deanonymize users is
+important.
 
-In this technical report, we consider the above questions, and present the
-threat model for Zcash more formally, \textit{assuming the use of shielded
-transactions}. We identify what constitutes sensitive information in the Zcash
-ecosystem, what adversaries may exist, and enumerate the attack vectors that
-such adversaries may employ. From this model, we then consider several
-different network privacy mechanisms, and analyze the extent to which these
-mechanisms improve the privacy and security of Zcash users. Finally, we lay out
-several near-term and long-term recommendations for improvements.
+In this technical report, we assess the capabilities of such nework
+adversaries, and present a more formal threat model for Zcash, with a focus on
+\textit{shielded
+transactions}. We identify what is considered sensitive information in the Zcash
+ecosystem, potential adversaries, and enumerate possible attack vectors.
+We then consider several
+network privacy mechanisms and assess the extent to which these
+mechanisms improve the privacy and security of Zcash users. Finally, we
+identify near-term and long-term recommendations for improvements.
 
 \textit{Organization}.
 We begin in Section~\ref{background} by discussing background information
 useful to understanding Zcash and its threat model. In
+Section~\ref{observations}, we describe the difference between adversarial
+network models in blockchains as opposed to other applications such as web
+browsing or email. In
 Section~\ref{threat-model}, we introduce a threat model for Zcash, by
 discussing sensitive information that attackers could observe in the Zcash
 network, reviewing possible attacker profiles and their associated
