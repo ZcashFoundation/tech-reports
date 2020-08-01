@@ -86,11 +86,12 @@ useful to understanding Zcash and its threat model. In
 Section~\ref{observations}, we describe the difference between adversarial
 network models in blockchains as opposed to other applications such as web
 browsing or email. In
-Section~\ref{threat-model}, we introduce a threat model for Zcash, by
-discussing sensitive information that attackers could observe in the Zcash
-network, reviewing possible attacker profiles and their associated
-capabilities and powers, and finally reviewing a range of potential attack
-vectors.
+Section~\ref{threat-model}, we introduce a threat model for Zcash.
+In Section~\ref{network-privacy-review} we describe the network
+privacy mechanisms that we include in our assessment, and in
+Section~\ref{network-privacy-assessment} we perform this assessment.
+In Section~\ref{future-improvements} we outline furture improvements we are
+planning to implement, and we conclude in Section~\ref{conclusion}.
 
 \section{Background} \label{background}
 
@@ -750,6 +751,7 @@ discourage timing fingerprinting) and dummy packets (to discourage behavior
 fingerprinting) does not add meaningful additional protections in this setting.
 
 \section{Future Improvements for Zcash Network Privacy}
+\label{future-improvements}
 
 \subsection{Privacy Improvements for Unshielded Transactions}
 
@@ -791,6 +793,7 @@ will then assess PIR as a second step. We will continue to observe the maturity
 of mixnets as a possible option in the future.
 
 \section{Conclusion}
+\label{conclusion}
 
 In this technical report, we sketched out a more formalized threat model for
 users of Zcash, and identified how this threat model differs between a setting
