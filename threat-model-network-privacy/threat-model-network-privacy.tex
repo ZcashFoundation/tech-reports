@@ -305,6 +305,13 @@ senders or receivers of Zcash from compromising the other part is certainly
 within the threat model of Zcash, we defer addressing this category of threats
 for future improvements.
 
+\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
+such that some nodes think they are aware of the entire network, but only
+instead be aware of a small subset of nodes. Such attacks could be performed by
+DNS seeders (again, by lying about the state of the network), or even by
+highly-connected nodes. Such attacks are well-known in the literature and in
+practice and demonstrated to be practical.
+
 \subsubsection{Out of Scope}
 \label{out-of-scope}
 
@@ -365,22 +372,7 @@ since our analysis only considers the case where shielded transactions are
 used, we deem epistemic attacks such as those presented by the Dandelion
 authors as not applicable for Zcash.
 
-\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
-such that some nodes think they are aware of the entire network, but only
-instead be aware of a small subset of nodes. Such attacks could be performed by
-DNS seeders (again, by lying about the state of the network), or even by
-highly-connected nodes. Such attacks are well-known in the literature and in
-practice and demonstrated to be practical.
-
-However, when considering deanonymization attacks against Zcash users, if
-shielded transactions are used, the same threat model holds for users
-regardless of whether an attacker can successfully perform a partitioning
-attack on the network.
-
-\textbf{End-to-End Timing Attacks.}
-
-
-\textbf{Fingerprinting attacks by Observing Timing of Transactions}.
+\textbf{Fingerprinting attacks by Correlating End-to-End Timing of Transactions}.
 Fingerprinting timing of when transactions are made
 can lead to deanonymizing the sender and
 receiver \emph{only} in the light wallet setting, even if shielded transactions
@@ -394,13 +386,12 @@ this setting, these parties could build a profile of the person making payments
 to them by observing the timing of their payments, even if the sender wishes to remain
 anonymous.
 
-While this attack can be amplified when information external to Zcash, such as
-if a user visits a website and exposes their IP address, and then makes a Zcash
-transaction, possibly allowing the recipient to link the two events. However,
-we consider this event to be out of scope, as further discussed in
-Section~\ref{out-of-scope}.
+While light wallets could perform this kind of end-to-end timing attack, we
+consider such attacks out of scope considering the latency and batching that is
+already added by time required for a transaction to be included into the
+blockchain, as further described in Section~\ref{observations}.
 
-\textbf{Fingerprinting attacks by Observing Behavior of Transactions}.
+\textbf{Fingerprinting attacks by Correlating End-to-End Behavior of Transactions}.
 Fingerprinting user behavior such as the frequency and number of transactions
 made can lead to deanonymizing senders and receivers in the setting where light
 wallets are used, even the transaction is shielded and timing information is
@@ -408,6 +399,15 @@ removed (such as by sending the transaction through a mixnet).
 For example, a malicious light wallet node could observe
 the frequency and pattern of a user’s transactions, and build a pattern to
 match against over time.
+
+However, as described in Section~\ref{observations}, it is unclear how
+end-to-end behavior correlation could occur, even if an adversary has a
+complete view of the network, considering how all transactions must first be
+synced to the network before a receiver can receive the funds. At minimum, a
+transaction will have the anonymity set of the size of one block, but this
+assumes a transaction is immediately synced to the blockchain; in reality,
+additional latency and randomness will be incurred due to proof of work
+requirements or network topologies that add latency to gossip protocols.
 
 \subsection{Adversarial Model}
 
