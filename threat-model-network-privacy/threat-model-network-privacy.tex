@@ -328,6 +328,12 @@ information---to the best of our assessment---simply leaks that the sender or
 receiver is participating in sending and receiving Zcash, without any further
 details. Consequently, we consider such an information leak to be out of scope.
 
+Note that learning the tuple such as (sender, transaction) along with
+additional information such as the time that a transaction was made can
+possibly leak undesirable information. However, we consider this to be out of
+scope for our current threat model until we can identify mechanisms that both
+ensure usability while meaningfully improving user privacy.
+
 \textbf{Unforeseen Software Flaws}: While our team developing Zcash software
 works diligently to prevent software bugs and vulnerabilities to the best of
 our ability, we do not
@@ -684,10 +690,9 @@ in-network gossip messages, Dandelion++ does not provide ``last-mile'' privacy,
 meaning that users can still be deanonymized by the light wallets they use.
 
 \textbf{Tor.}
-Because receivers can be distinguished from other in a light wallet setting
-when they fetch additional transaction details (because these users only fetch
-additional details for the transaction they are specifically interested in),
-an on-path adversary such as a light wallet could perform correlation attacks.
+Tor protects against a light wallet directly distinguishing between receivers
+in a light wallet setting, as the light wallet will not be able to learn the
+network identity (IP address) of a receiver.
 
 Because Tor is a low-latency
 network, even if the receiver IP address is hidden from the light wallet, the
@@ -703,65 +708,69 @@ latency in a network like Zcash is on the order of minutes. As such, we deem
 timing-based attacks to be not applicable even when light wallets are used for
 Zcash.
 
+However, the light wallet can still observe which queries a receiver wishes to
+fetch, even if the light wallet cannot observe that receiver's network
+identity. If the light wallet provided service to both the sender and receiver,
+it could possibly perform a linking attack based purely on this information.
+Hence, we do not grant the property of protecting against end-to-end
+correlation attacks by on-path nodes.
+
 \textbf{Mixnets.}
-In the setting for light wallets, mixnets can prevent timing-based attacks, as
-packets are delayed when forwarded through a mixnet, and consequently make
-performing such attacks significantly more difficult for an adversary.
+Because blockchains require publishing transactions to a global immutable data
+store (the blockchain), the property of mixnets to inject dummy packets to help
+discourage end-to-end packet correlation in a web traffic setting is less
+relevant in a blockchain setting.
 
-However, we note that mixnets in this setting cannot meaningfully hide sender
-behavior, as even though the mixnet might inject
-``dummy'' packets, observers of the network will still know that a user is
-publishing a transaction to the Zcash network.
-
-Similarly to described above for the ability of an adversary to use timing of
-Zcash transactions to infer information about the sender, receiver, and/or
-contents, we deem such timing information as not applicable in the setting even
-where mixnets are used. While mixnets do hide timing information for packets by
-delaying messages sent through the mix network, in Loopix-based systems, such
+Further, as described in Section~\ref{observations}, the ability of an adversary to use timing of
+transactions to infer information about the sender, receiver, and
+contents is less relevant in a blockchain setting due to the inherent latency
+incurred when publishing a transaction.
+While mixnets do hide timing information for packets by
+delaying messages sent through the mix network, in systems tuned for web or
+messaging application traffic, such
 delays are on the order of seconds or even microseconds, where as we observed
-above, the Zcash network iteself imposes delays on the order of mixnets as
+above, the Zcash network itself imposes delays on the order of minutes as
 transactions are added to the Zcash blockchain. Performing an end-to-end
 correlation attack simply by observing the endpoints (nodes servicing the
 sender or receiver of the transaction) will have difficulty performing such a
 timing correlation even in Zcash today.
 
+Similarly to the description of Tor above, a light wallet can observe which
+queries a receiver wishes to fetch, and so a malicious light wallet could use
+additional information to perform linking attacks. Hence, we do not grant the
+property of protecting against on-path end-to-end correlation attacks simply by
+use of mixnets alone.
+
 \textbf{Only PIR.}
 PIR in the setting of Zcash ensures that a receiver can hide which transaction
-they are interested in learning.
-
-When only PIR is used without a network anonymity tool such as Tor or a mixnet,
-PIR can protect against on-path correlation attacks in the setting of light
-wallet usage, as the light wallet will not learn the contents of a receiver's
-query. However, PIR does not protect against the light wallet performing timing
-or behavior attacks, as the light wallet will learn the receiver's identity.
+they are interested in learning. However, a malicious on-path light wallet
+could still perform end-to-end correlation attacks by observing the sender and
+receiver's identities, as well as link the sender to a specific transaction.
+Hence, we do not grant full protection against on-path correlation attacks when
+only PIR is used.
 
 \textbf{Tor + PIR.}
 In the setting where senders and receivers use Tor along with PIR, we grant a
 full circle for protection against on-path correlation
-attacks, and also for protection against timing and behavior fingerprinting
-attacks. While nodes can learn that \emph{someone} is sending and receiving a
-transaction, nodes cannot learn either \emph{which} transaction, nor who the
-sender or receiver are. Hence, we maintain that simply learning timing and
-behavior of these access patterns cannot be used to perform successful
-deanonymization attacks.
+attacks.
+While nodes can learn that \emph{someone} is sending and receiving a
+transaction, nodes cannot learn either \emph{which} transaction, \emph{nor} who
+the sender or receiver are.
 
 \textbf{Mixnet + PIR.}
 Similarly to Tor, we grant a full circle for protection against on-path
-correlation attacks as well as fingerprinting attacks when a mixnet used in
+correlation attacks when a mixnet used in
 conjunction with PIR. Similarly to Tor, mixnets hide the identity of senders
 and receivers from the destination of their request by forwarding traffic along
 a series of hops, and so both systems achieve the same security properties for
 these reasons.
 
-Again, we maintain that simply
-by removing the ability for nodes to learn either the identities of the sender
-and receiver, as well as the contents of the transaction query, that mixnets
-protect against attackers successfully performing fingerprinting attacks
-resulting in user deanonymization. Note however that this protection is
+Note however that this protection is
 achieved simply by routing user's transactions among the mix network of
 independently-operated nodes, and the addition of message latency (to
 discourage timing fingerprinting) and dummy packets (to discourage behavior
-fingerprinting) does not add meaningful additional protections in this setting.
+fingerprinting) does not add meaningful additional protections in this setting,
+as further described in Section~\ref{observations}.
 
 \section{Future Improvements for Zcash Network Privacy}
 \label{future-improvements}
