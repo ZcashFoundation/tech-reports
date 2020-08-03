@@ -611,7 +611,7 @@ the user's query.
 
     \multirow{2}{*}{Light Client} & DoS & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
-    & On-Path Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+    & On-Path Correlation & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
 
 \end{tabular}
 \end{table}
@@ -619,20 +619,23 @@ the user's query.
 \subsection{Analysis for Use of Full Nodes}
 
 \textbf{Dandelion++.}
-In the full node setting, Dandelion++ does not meaningfully change privacy
-guarantees for users, as Dandelion++ only provides privacy in the setting of a
+In the full node setting when shielded transactions are used, Dandelion++ does
+not meaningfully change privacy
+guarantees for users, as Dandelion++ provides privacy in the setting of a
 super node with knowledge of the network graph. Because receivers of
 Zcash transactions operate in a full broadcast setting when using a full node,
-Dandelion++ does not add meaningful additional privacy guarantees against
-end-to-end correlation attacks. Further, the protocol does not add any
-protection against denial of service attacks.
+Dandelion++ does not add meaningful additional privacy guarantees, where simply
+examining a transaction cannot reveal any additional information.
+Further, the protocol does not add any protection against denial of service
+attacks.
 
 \textbf{Tor.}
 Again, in the setting where full nodes are used, the receiver cannot be linked
-to a specific transaction, unless the receiver themselves is malicious. As
-such, while Tor can hide which transaction a user made, in this threat model
-that does not meaningfully change user privacy. Further, because Tor is a
-low-latency network, use of Tor will not hide fingerprintable information.
+to a specific transaction, unless the receiver themselves is malicious and
+colludes with other parties. As
+such, while Tor can hide which transaction a sender made, in the setting where
+shielded transactions are used and receivers receive all transactions in a full
+broadcast model, the use of Tor does does not meaningfully change user privacy.
 
 \textbf{Mixnets.}
 While the use of a Loopix-based mixnet raises the cost to an adversary to
