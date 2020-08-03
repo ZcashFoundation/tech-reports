@@ -593,20 +593,25 @@ the user's query.
   Mixnet=Loopix-based routing capable of delaying packets but not creating
   dummy transactions;
 
+  DoS=Denial of Service;
+
+  On-Path Correlation=End to end correlation attacks where one node in the path
+  is participating in the attack.
+
   \medskip
 
   \begin{tabular}{ p{4.5em}| c | c | c | c | c | c | c}
     & & & & & \multicolumn{3}{c}{PIR}  \\
     & Attack & Dandelion++ & Tor & Mixnet  & Only PIR & Tor & Mixnet \\
  \hline
-    & Denial of Service & \Circle & \Circle & \Circle & \Circle & \Circle & \Circle \\
-    & On-Path End to End Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
+    \multirow{2}{*}{Full Node} & DoS & \Circle & \Circle & \Circle & \Circle & \Circle & \Circle \\
+    & On-Path Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
 
     \hline
 
-    & Denial of Service & \Circle & \Circle & \Circle & \Circle &  \Circle &
+    \multirow{2}{*}{Light Client} & DoS & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
-    & On-Path End to End Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+    & On-Path Correlation & \Circle & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
 
 \end{tabular}
 \end{table}
