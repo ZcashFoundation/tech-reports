@@ -654,7 +654,10 @@ full node setting.
 
 \textbf{Only PIR.}
 Because the receiver in a full node setting receives all transactions, use of
-PIR does not add any additional meaningful protections.
+PIR does not add any additional meaningful protections when shielded
+transactions are used. This is because the receiver has the full set of
+transactions themselves and does not need to perform a lookup to another server
+for this information.
 
 \textbf{Tor + PIR.}
 Because receivers of Zcash when using a full node operate in full broadcast
@@ -664,12 +667,12 @@ of PIR in this setting does not meaningfully add privacy or security
 protections.
 
 As such, use of Tor + PIR in the setting does not add meaningful privacy
-protections.
+protections when shielded transactions are used.
 
 \textbf{Mixnet + PIR.}
 Again, because users operate with full nodes, even though the sender's identity
 is hidden and so are any timing or behavior leaks, use of mixnets with PIR does
-not add meaningful security.
+not add meaningful security when shielded transaction are used.
 
 \subsection{Analysis for Use of Light Wallets}
 
