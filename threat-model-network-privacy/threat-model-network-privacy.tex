@@ -43,7 +43,7 @@
 
 
 
-\title{Zcash Threat Model and Network Privacy Assessment}
+\title{Zcash Network Privacy Assessment}
 \author{The Zcash Foundation}
 
 \begin{document}
@@ -71,10 +71,10 @@ protect against network-level adversaries seeking to deanonymize users is
 important.
 
 In this technical report, we assess the capabilities of such nework
-adversaries, and present a more formal threat model for Zcash, with a focus on
-\textit{shielded
+adversaries, and present a more formal assessment of network privacy Zcash
+users, with a focus on \textit{shielded
 transactions}. We identify what is considered sensitive information in the Zcash
-ecosystem, potential adversaries, and enumerate possible attack vectors.
+ecosystem, potential adversaries, and enumerate several attack vectors.
 We then consider several
 network privacy mechanisms and assess the extent to which these
 mechanisms improve the privacy and security of Zcash users. Finally, we
@@ -82,11 +82,11 @@ identify near-term and long-term recommendations for improvements.
 
 \textit{Organization}.
 We begin in Section~\ref{background} by discussing background information
-useful to understanding Zcash and its threat model. In
+useful to understanding the network privacy that Zcash ensures for users. In
 Section~\ref{observations}, we describe the difference between adversarial
 network models in blockchains as opposed to other applications such as web
 browsing or email. In
-Section~\ref{threat-model}, we introduce a threat model for Zcash.
+Section~\ref{threat-model}, we introduce a basic threat model for Zcash.
 In Section~\ref{network-privacy-review} we describe the network
 privacy mechanisms that we include in our assessment, and in
 Section~\ref{network-privacy-assessment} we perform this assessment.
@@ -99,7 +99,7 @@ planning to implement, and we conclude in Section~\ref{conclusion}.
 \label{shielded}
 
 While Zcash does allow for use of unshieleded transactions, in this technical
-report we focus entirely on the threat model assuming the use of shielded
+report we focus on assessing the network privacy for users assuming the use of shielded
 transactions. However, we will now briefly describe
 the difference between the two transaction types.
 As mentioned before, unshielded transactions are similar
@@ -125,8 +125,8 @@ hide the information contained within a transaction, users of Zcash can also
 make non-shielded transactions. Because Zcash is a fork of Bitcoin,
 non-shielded transactions consequently have effectively the same expectation of
 privacy as plain Bitcoin transactions, which had been proven to be insecure
-against de-anonymization attacks~\cite{anon-bitcoin}. In this post, we’ll
-evaluate the threat model for Zcash considering only shielded transactions.
+against de-anonymization attacks~\cite{anon-bitcoin}. In this post, we will
+focus on evaluating the setting when shielded transactions.
 
 While both Zcash and Bitcoin have future goals of
 stable Tor integration and other network-privacy mechanisms, this routing via
@@ -245,15 +245,14 @@ blockchain settings from other settings such as for web traffic.
 While adversaries can certainly perform end-to-end attacks in a blockchain
 setting, the above observations indicate that doing so requires different
 techniques than in other application settings such as for web traffic or email
-applications. Hence, we consider end-to-end passive fingerprinting
-as out of scope for the threat model of Zcash, assuming the use of shielded
-transactions.
+applications. Hence, we do not consider such attacks in our assessment of
+network privacy for Zcash in the setting where shielded transactions are used.
 
 
-\section{Zcash Threat Model}
+\section{Analysis of Attack Vectors in Zcash}
 \label{threat-model}
 
-\subsection{Analysis of Sensitive Information Exposure}
+\subsection{Sensitive Information Exposure}
 As described in Section~\ref{shielded} an adversary could gain more information
 about a shielded transaction by observing information exposed to the network.
 Keeping this in mind, and assuming that a transaction is shielded, we now
@@ -282,7 +281,6 @@ transaction, or if the recipient leaks to a provider which transaction they
 are interested in, the sender and receiver could be linked to a particular
 transaction.
 
-
 \textbf{Unique fingerprints of user habits, coupled to sender or receiver
 identity}: By observing behavior of Zcash
 transactions sent over the network, an adversary could start to build a
@@ -295,6 +293,12 @@ sender to receiver.
 Further, ``on-chain'' information could also allow for fingerprintability. For
 example, fees and timing of transactions could possibly provide additional
 information to an observer.
+
+\textbf{Block Access Patterns:} Even if a user accessed
+information about the Zcash blockchain using an anonymity tool such as Tor, the
+access patterns for specific blocks could leak information to network
+adversaries, such as the time of day that users requested information about
+that block, or its popularity.
 
 \subsubsection{Deferred Threats for Future Improvements}
 
@@ -322,8 +326,7 @@ practice and demonstrated to be practical.
 Note that a network observer can also gain a subset of sender/receiver
 linkability information by
 observing just a sender \emph{or} receiver's identity linked to a specific
-transaction. We consider this use case to be out of scope to the threat model
-of Zcash, as such
+transaction. We consider this use case to be out of scope, as such
 information---to the best of our assessment---simply leaks that the sender or
 receiver is participating in sending and receiving Zcash, without any further
 details. Consequently, we consider such an information leak to be out of scope.
@@ -331,21 +334,21 @@ details. Consequently, we consider such an information leak to be out of scope.
 Note that learning the tuple such as (sender, transaction) along with
 additional information such as the time that a transaction was made can
 possibly leak undesirable information. However, we consider this to be out of
-scope for our current threat model until we can identify mechanisms that both
+scope until we can identify mechanisms that both
 ensure usability while meaningfully improving user privacy.
 
-\textbf{Unforeseen Software Flaws}: While our team developing Zcash software
+\textbf{Unforeseen Software Flaws:} While our team developing Zcash software
 works diligently to prevent software bugs and vulnerabilities to the best of
 our ability, we do not
-consider such flaws in scope to our threat model, as such cases are unforeseen
+consider such flaws in scope, as such cases are unforeseen
 and we cannot rule them out completely. As such, when we become aware of
 vulnerabilities or flaws, we will fix them, but we cannot claim such
 occurrences will not occur in the future.
 
-\textbf{User Behavior Outside of the Zcash Protocol}: Zcash is not used in a
+\textbf{User Behavior Outside of the Zcash Protocol:} Zcash is not used in a
 vacuum; spending and receiving Zcash is linked to real-world value. As such, we
-do not consider user behavior outside of the Zcash protocol to be in scope to
-our threat model, even if that behavior results in spending or receiving Zcash.
+do not consider user behavior outside of the Zcash protocol to be in scope,
+even if that behavior results in spending or receiving Zcash.
 For example, someone who goes to a website and wishes to purchase an item in
 Zcash may be unlinkable purely when observing the Zcash network, but their
 behavior when browsing the website can still be observable to a network
@@ -353,14 +356,11 @@ attacker. In order to spend Zcash in a \emph{truly} private way, the user must
 use another privacy-preserving technology to hide their spending behavior
 outside of Zcash, such as accessing that website over Tor.
 
-\textbf{Block Access Patterns}: Even if a user accessed
-information about the Zcash blockchain using an anonymity tool such as Tor, the
-access patterns for specific blocks could leak information to network
-adversaries, such as the time of day that users requested information about
-that block, or its popularity. However, preventing such information leaks
-can likely only be solved using a full broadcast system, which is already
-an option for full Zcash notes. For optimizations, we do not consider the
-access patterns on blocks to be in scope to the Zcash threat model.
+\textbf{Sybil Attacks:} In small decentralized networks, adversaries can
+control a larger percentage of the total network and consequently gain more
+advantage over collective network functions. However, we do not consider such
+attacks as in scope to our assessment; we assume an adversary with sufficiently
+limited resources as to require participation akin to honest users.
 
 \subsection{Attacks that are not Applicable for Shielded Transactions}
 
@@ -443,7 +443,7 @@ to other parties, and compare traffic with other traffic.
 regular Zcash users to take actions they may not wish to take, such as turning
 over secret keys or server logs.
 
-\subsection{Attack Vectors}
+\subsection{Additional Attack Vectors}
 \label{attack-vectors}
 
 We now review known attacks in the literature that have been described for
@@ -453,10 +453,10 @@ decentralized networks where information about the network may or may not be
 consistent, or require the use of light wallets in a setting where user
 behavior can be differentiated.
 
-\textbf{Denial of service attacks}. Such attacks could be performed against
-Zcash nodes, such as DNS seeders refusing to respond to certain queries, or
-against Zcash users, such as light wallets refusing to service certain classes
-of IP addresses.
+\textbf{denial of service attacks}. such attacks could be performed against
+zcash nodes, such as dns seeders refusing to respond to certain queries, or
+against zcash users, such as light wallets refusing to service certain classes
+of ip addresses.
 
 \textbf{On-Path end to end correlation attacks}. This attack could occur by an
 adversary that can obtain the (sender identity, transaction, receiver identity)
@@ -817,7 +817,8 @@ of mixnets as a possible option in the future.
 \section{Conclusion}
 \label{conclusion}
 
-In this technical report, we sketched out a more formalized threat model for
+In this technical report, we sketched out a more formalized assessment for the
+network privacy of
 users of Zcash, and identified how this threat model differs between a setting
 where users exchange shielded versus unshielded transactions. We then assessed
 the extent to which well-known network anonymity tools improve protections for
