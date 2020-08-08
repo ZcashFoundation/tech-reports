@@ -278,14 +278,15 @@ regular Zcash users to take actions they may not wish to take, such as turning
 over secret keys or server logs.
 
 
-\subsection{Sensitive Information Exposure}
+\subsection{Attack Vectors Against Shielded Transaction Use}
 As described in Section~\ref{shielded} an adversary could gain more information
 about a shielded transaction by observing information exposed to the network.
 Keeping this in mind, and assuming that a transaction is shielded, we now
 review sensitive information that could be exposed and used for malicious
 purposes by a adversary.
-We divide these information leaks into \emph{in scope} to the Zcash threat
-model, and \emph{out of scope}.
+We divide attack vectors an adversary can employ using these information leaks
+into \emph{in scope} to our immediate network privacy assessment, and \emph{out
+of scope}.
 
 \subsubsection{In Scope}
 \label{in-scope}
@@ -294,7 +295,7 @@ Note that an adversary has the ability to observe both \emph{on-chain} visible
 data as well as information or behaviour that is exposed to the network during
 the process of submitting a new transaction or receiving a transaction.
 
-\textbf{Linking (sender identity, transaction, receiver identity)}:
+\textbf{Linking (sender identity, transaction, receiver network identity):}
 Specifically, this three-tuple of sender identity, transaction, and receiver
 identity allows for an adversary to link the fact that a
 specific sender of Zcash made a payment to a specific receiver, even though the
@@ -307,31 +308,7 @@ transaction, or if the recipient leaks to a provider which transaction they
 are interested in, the sender and receiver could be linked to a particular
 transaction.
 
-\textbf{Unique fingerprints of user habits, coupled to sender or receiver
-identity}: By observing behavior of Zcash
-transactions sent over the network, an adversary could start to build a
-“fingerprint” of a user’s behavior, partially when using machine learning
-algorithms to classify traffic. Information that is exposed in this
-category includes the time of day that a transaction occurs, the frequency
-of transactions, and even the route that a transaction passes through from
-sender to receiver.
-
-Further, ``on-chain'' information could also allow for fingerprintability. For
-example, fees and timing of transactions could possibly provide additional
-information to an observer.
-
-\textbf{Block Access Patterns:} Even if a user accessed
-information about the Zcash blockchain using an anonymity tool such as Tor, the
-access patterns for specific blocks could leak information to network
-adversaries, such as the time of day that users requested information about
-that block, or its popularity.
-
-\textbf{Denial of Service Attacks}. such attacks could be performed against
-zcash nodes, such as dns seeders refusing to respond to certain queries, or
-against zcash users, such as light wallets refusing to service certain classes
-of ip addresses.
-
-\textbf{On-Path end to end correlation attacks}. This attack could occur by an
+\textbf{On-Path end to end correlation attacks:} This attack could occur by an
 adversary that can obtain the (sender identity, transaction, receiver identity)
 tuple discussed in Section~\ref{threat-model}. By \emph{on-path end to end
 correlation}, we include attacks performed by nodes that are directly on the
@@ -341,9 +318,21 @@ only when the recipient uses a light wallet in such a manner that leaks the
 transaction that the sender or receiver is publishing, as further described in
 Section~\cite{light-wallet-spec}.
 
+\textbf{Block access patterns:} Even if a user accessed
+information about the Zcash blockchain using an anonymity tool such as Tor, the
+access patterns for specific blocks could leak information to network
+adversaries, such as the time of day that users requested information about
+that block, or its popularity.
+
+\textbf{Denial of Service attacks:} such attacks could be performed against
+zcash nodes, such as dns seeders refusing to respond to certain queries, or
+against zcash users, such as light wallets refusing to service certain classes
+of IP addresses.
+
+
 \subsubsection{Deferred Threats for Future Improvements}
 
-\textbf{Malicious Senders or Receivers of Zcash}:
+\textbf{Malicious senders or receivers of Zcash:}
 Senders or receivers of Zcash can act honestly within the protocol but
 maliciously outside of the protocol (such as creating a ``honeypot'' for which
 Zcash users are tricked into sending valid transactions to).
@@ -353,14 +342,14 @@ senders or receivers of Zcash from compromising the other part is certainly
 within the threat model of Zcash, we defer addressing this category of threats
 for future improvements.
 
-\textbf{Partitioning attacks}. The Zcash network itself could be partitioned,
+\textbf{Partitioning attacks:} The Zcash network itself could be partitioned,
 such that some nodes think they are aware of the entire network, but only
 instead be aware of a small subset of nodes. Such attacks could be performed by
 DNS seeders (again, by lying about the state of the network), or even by
 highly-connected nodes. Such attacks are well-known in the literature and in
 practice and demonstrated to be practical.
 
-\textbf{Learning the tuple (sender or receiver identity, transaction)}:
+\textbf{Learning the tuple (sender or receiver identity, transaction):}
 Note that a network observer can also gain a subset of sender/receiver
 linkability information by
 observing just a sender \emph{or} receiver's identity linked to a specific
@@ -374,7 +363,7 @@ deferred threat that we can consider in the future.
 \subsubsection{Out of Scope}
 \label{out-of-scope}
 
-\textbf{Unforeseen Software Flaws:} While our team developing Zcash software
+\textbf{Unforeseen software flaws:} While our team developing Zcash software
 works diligently to prevent software bugs and vulnerabilities to the best of
 our ability, we do not
 consider such flaws in scope, as such cases are unforeseen
@@ -382,7 +371,7 @@ and we cannot rule them out completely. As such, when we become aware of
 vulnerabilities or flaws, we will fix them, but we cannot claim such
 occurrences will not occur in the future.
 
-\textbf{User Behavior Outside of the Zcash Protocol:} Zcash is not used in a
+\textbf{User behavior Outside of the Zcash protocol:} Zcash is not used in a
 vacuum; spending and receiving Zcash is linked to real-world value. As such, we
 do not consider user behavior outside of the Zcash protocol to be in scope,
 even if that behavior results in spending or receiving Zcash.
@@ -393,7 +382,7 @@ attacker. In order to spend Zcash in a \emph{truly} private way, the user must
 use another privacy-preserving technology to hide their spending behavior
 outside of Zcash, such as accessing that website over Tor.
 
-\textbf{Sybil Attacks:} In small decentralized networks, adversaries can
+\textbf{Sybil attacks:} In small decentralized networks, adversaries can
 control a larger percentage of the total network and consequently gain more
 advantage over collective network functions. However, we do not consider such
 attacks as in scope to our assessment; we assume an adversary with sufficiently
@@ -410,13 +399,14 @@ One example of epistemic attacks against cryptocurrency networks involve the
 probability of ``super-connected'' nodes that can link the node from which a
 transaction originated~\cite{dandelion, fanti2018dandelion}.
 
-However, let's consider the case when only shielded transactions are used. In
-such a setting, the recipient of the transaction will not be disclosed if they
-are using a full node, and only disclosed if they fetch additional parameters
-if using a light wallet (such as by fetching the Zcash memo field). As such,
-since our analysis only considers the case where shielded transactions are
-used, we deem epistemic attacks such as those presented by the Dandelion
-authors as not applicable for Zcash.
+However, in the case of a blockchain, all transactions are first synced to the
+blockchain before the receiver can learn the transaction. Hence, unique routing
+information will not allow a network adversary to learn the sender, receiver,
+transaction tuple. In short, because the transaction first becomes part of the
+global state of the network, there is no ``end-to-end linking'' of routing
+information that is helpful to an adversary, unlike in the setting where
+information is sent directly from a sender to a receiver, such as web
+application traffic.
 
 \textbf{Fingerprinting attacks by Correlating End-to-End Timing of Transactions}.
 Fingerprinting timing of when transactions are made
