@@ -252,6 +252,32 @@ network privacy for Zcash in the setting where shielded transactions are used.
 \section{Analysis of Attack Vectors in Zcash}
 \label{threat-model}
 
+\subsection{Adversarial Model}
+
+We begin with a brief review of possible adversaries, whom we will consider in
+our analysis of attack vectors.
+
+\textbf{Regular Zcash user}. Allowed to send and receive transactions and act
+outside the protocol, just as a real user.
+
+\textbf{Regular Zcash Node Operator}. Can operate one (or many) full Zcash
+nodes, and can store and forward all traffic that is sent through the node. Can
+query for network information, and store and examine all information it
+receives.
+
+\textbf{DNS seeder operators}. Operates the node that is used by new nodes when
+bootstrapping to the Zcash network, in order to learn about other nodes in the
+network to begin communicating with them directly.
+
+\textbf{Internet Service Providers (ISPs)}. Can view traffic sent and received
+from either users or Zcash nodes. Can store observed traffic, forward traffic
+to other parties, and compare traffic with other traffic.
+
+\textbf{Government actors}. Can issue secret subpoenas and force ISPs and
+regular Zcash users to take actions they may not wish to take, such as turning
+over secret keys or server logs.
+
+
 \subsection{Sensitive Information Exposure}
 As described in Section~\ref{shielded} an adversary could gain more information
 about a shielded transaction by observing information exposed to the network.
@@ -300,6 +326,21 @@ access patterns for specific blocks could leak information to network
 adversaries, such as the time of day that users requested information about
 that block, or its popularity.
 
+\textbf{Denial of Service Attacks}. such attacks could be performed against
+zcash nodes, such as dns seeders refusing to respond to certain queries, or
+against zcash users, such as light wallets refusing to service certain classes
+of ip addresses.
+
+\textbf{On-Path end to end correlation attacks}. This attack could occur by an
+adversary that can obtain the (sender identity, transaction, receiver identity)
+tuple discussed in Section~\ref{threat-model}. By \emph{on-path end to end
+correlation}, we include attacks performed by nodes that are directly on the
+path between a sender and receiver when publishing or receiving a transaction.
+In the current model of Zcash, such an attacks are practical
+only when the recipient uses a light wallet in such a manner that leaks the
+transaction that the sender or receiver is publishing, as further described in
+Section~\cite{light-wallet-spec}.
+
 \subsubsection{Deferred Threats for Future Improvements}
 
 \textbf{Malicious Senders or Receivers of Zcash}:
@@ -319,23 +360,19 @@ DNS seeders (again, by lying about the state of the network), or even by
 highly-connected nodes. Such attacks are well-known in the literature and in
 practice and demonstrated to be practical.
 
-\subsubsection{Out of Scope}
-\label{out-of-scope}
-
 \textbf{Learning the tuple (sender or receiver identity, transaction)}:
 Note that a network observer can also gain a subset of sender/receiver
 linkability information by
 observing just a sender \emph{or} receiver's identity linked to a specific
-transaction. We consider this use case to be out of scope, as such
-information---to the best of our assessment---simply leaks that the sender or
-receiver is participating in sending and receiving Zcash, without any further
-details. Consequently, we consider such an information leak to be out of scope.
+transaction. Note this information is more valuable in an unshielded setting,
+as learning the unshielded transaction can give the attacker useful
+information. However, learning this information in a shielded setting simply
+gives the attacker enough information to learn that they are sending a Zcash
+transaction, but no additional information. As such, we consider this a
+deferred threat that we can consider in the future.
 
-Note that learning the tuple such as (sender, transaction) along with
-additional information such as the time that a transaction was made can
-possibly leak undesirable information. However, we consider this to be out of
-scope until we can identify mechanisms that both
-ensure usability while meaningfully improving user privacy.
+\subsubsection{Out of Scope}
+\label{out-of-scope}
 
 \textbf{Unforeseen Software Flaws:} While our team developing Zcash software
 works diligently to prevent software bugs and vulnerabilities to the best of
@@ -417,56 +454,6 @@ transaction will have the anonymity set of the size of one block, but this
 assumes a transaction is immediately synced to the blockchain; in reality,
 additional latency and randomness will be incurred due to proof of work
 requirements or network topologies that add latency to gossip protocols.
-
-\subsection{Adversarial Model}
-
-We now review possible adversaries that may be motivated to compromise Zcash users'
-privacy.
-
-\textbf{Regular Zcash user}. Allowed to send and receive transactions and act
-outside the protocol, just as a real user.
-
-\textbf{Regular Zcash Node Operator}. Can operate one (or many) full Zcash
-nodes, and can store and forward all traffic that is sent through the node. Can
-query for network information, and store and examine all information it
-receives.
-
-\textbf{DNS seeder operators}. Operates the node that is used by new nodes when
-bootstrapping to the Zcash network, in order to learn about other nodes in the
-network to begin communicating with them directly.
-
-\textbf{Internet Service Providers (ISPs)}. Can view traffic sent and received
-from either users or Zcash nodes. Can store observed traffic, forward traffic
-to other parties, and compare traffic with other traffic.
-
-\textbf{Government actors}. Can issue secret subpoenas and force ISPs and
-regular Zcash users to take actions they may not wish to take, such as turning
-over secret keys or server logs.
-
-\subsection{Additional Attack Vectors}
-\label{attack-vectors}
-
-We now review known attacks in the literature that have been described for
-decentralized systems that are applicable to Zcash even when shielded addresses
-are used. Notably, some these attacks leverage
-decentralized networks where information about the network may or may not be
-consistent, or require the use of light wallets in a setting where user
-behavior can be differentiated.
-
-\textbf{denial of service attacks}. such attacks could be performed against
-zcash nodes, such as dns seeders refusing to respond to certain queries, or
-against zcash users, such as light wallets refusing to service certain classes
-of ip addresses.
-
-\textbf{On-Path end to end correlation attacks}. This attack could occur by an
-adversary that can obtain the (sender identity, transaction, receiver identity)
-tuple discussed in Section~\ref{threat-model}. By \emph{on-path end to end
-correlation}, we include attacks performed by nodes that are directly on the
-path between a sender and receiver when publishing or receiving a transaction.
-In the current model of Zcash, such an attacks are practical
-only when the recipient uses a light wallet in such a manner that leaks the
-transaction that the sender or receiver is publishing, as further described in
-Section~\cite{light-wallet-spec}.
 
 
 \section{Review of Network Privacy Approaches}
