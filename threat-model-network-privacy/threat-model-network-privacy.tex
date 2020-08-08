@@ -252,28 +252,46 @@ network privacy for Zcash in the setting where shielded transactions are used.
 \section{Analysis of Attack Vectors in Zcash}
 \label{threat-model}
 
+We now assess attack vectors relevant to Zcash. We define the information of
+interest to an attacker as the below tuple.
+
+\textbf{Information of interest: learning the tuple (sender network identity, transaction, receiver network identity).}
+This three-tuple of sender network identity, transaction, and receiver network
+identity allows for an adversary to link the fact that a
+specific sender of Zcash made a payment to a specific receiver, even though the
+amount of the payment is not disclosed.
+
+By ``network identity'', we mean the IP address of a sender or receiver, or other
+distinguishing information that is not included in the transaction itself. This
+differs from the ``on-chain'' identity of a sender or receiver, which Zcash
+shielded transactions hide by randomizing addresses.
+While the sender and receiver public keys (on-chain identity)
+are not exposed by the Zcash transaction itself, an adversary
+could learn their network identity by observing or participating in the
+network.
+
 \subsection{Adversarial Model}
 
 We begin with a brief review of possible adversaries, whom we will consider in
 our analysis of attack vectors.
 
-\textbf{Regular Zcash user}. Allowed to send and receive transactions and act
+\textbf{Regular Zcash user:} Allowed to send and receive transactions and act
 outside the protocol, just as a real user.
 
-\textbf{Regular Zcash Node Operator}. Can operate one (or many) full Zcash
+\textbf{Regular Zcash Node Operator:} Can operate one (or many) full Zcash
 nodes, and can store and forward all traffic that is sent through the node. Can
 query for network information, and store and examine all information it
 receives.
 
-\textbf{DNS seeder operators}. Operates the node that is used by new nodes when
+\textbf{DNS seeder operators:} Operates the node that is used by new nodes when
 bootstrapping to the Zcash network, in order to learn about other nodes in the
 network to begin communicating with them directly.
 
-\textbf{Internet Service Providers (ISPs)}. Can view traffic sent and received
+\textbf{Internet Service Providers (ISPs):} Can view traffic sent and received
 from either users or Zcash nodes. Can store observed traffic, forward traffic
 to other parties, and compare traffic with other traffic.
 
-\textbf{Government actors}. Can issue secret subpoenas and force ISPs and
+\textbf{Government actors:} Can issue secret subpoenas and force ISPs and
 regular Zcash users to take actions they may not wish to take, such as turning
 over secret keys or server logs.
 
@@ -294,19 +312,6 @@ of scope}.
 Note that an adversary has the ability to observe both \emph{on-chain} visible
 data as well as information or behaviour that is exposed to the network during
 the process of submitting a new transaction or receiving a transaction.
-
-\textbf{Linking (sender identity, transaction, receiver network identity):}
-Specifically, this three-tuple of sender identity, transaction, and receiver
-identity allows for an adversary to link the fact that a
-specific sender of Zcash made a payment to a specific receiver, even though the
-amount of the payment is not disclosed. While the sender and receiver identity
-is not exposed by the Zcash transaction itself, an adversary
-could gain this information by observing the network or colluding
-with one of the involved parties. For example, if the recipient is
-malicious and colludes with a party that can link the sender to their
-transaction, or if the recipient leaks to a provider which transaction they
-are interested in, the sender and receiver could be linked to a particular
-transaction.
 
 \textbf{On-Path end to end correlation attacks:} This attack could occur by an
 adversary that can obtain the (sender identity, transaction, receiver identity)
