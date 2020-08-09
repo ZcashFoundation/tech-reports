@@ -393,9 +393,9 @@ advantage over collective network functions. However, we do not consider such
 attacks as in scope to our assessment; we assume an adversary with sufficiently
 limited resources as to require participation akin to honest users.
 
-\subsection{Attacks that are not Applicable for Shielded Transactions}
+\subsection{Attacks Less Applicable to Shielded Transactions}
 
-\textbf{Epistemic attacks}. A network observer could perform an epistemic
+\textbf{Epistemic attacks:} A network observer could perform an epistemic
 attack by observing unique routing information that allows for eventual
 deanonymization of that user. Again, such attacks are possible in Zcash because
 users do not control routing information for their transaction.
@@ -413,42 +413,37 @@ information that is helpful to an adversary, unlike in the setting where
 information is sent directly from a sender to a receiver, such as web
 application traffic.
 
-\textbf{Fingerprinting attacks by Correlating End-to-End Timing of Transactions}.
-Fingerprinting timing of when transactions are made
-can lead to deanonymizing the sender and
-receiver \emph{only} in the light wallet setting, even if shielded transactions
-are used. We note that in the full node setting, such attacks are not possible
-due to the full broadcast nature once transactions are published to the Zcash
-blockchain.
+\textbf{Timing fingerprinting attacks:}
+While an adversary can perform timing fingerprinting attacks on the sender of a
+transaction, the adversary still must be able to correlate this information to
+the receiver of the transaction in order to learn the full tuple of value.
+However, again, deanonymizing the receiver is possible
+\emph{only} in the light wallet setting when shielded transactions are used, as
+otherwise the receiving protocol is a full broadcast protocol.
 
-However, timing-based fingerprinting can be performed by a
-malicious light wallet node or even a malicious or compromised recipient. In
-this setting, these parties could build a profile of the person making payments
-to them by observing the timing of their payments, even if the sender wishes to remain
-anonymous.
-
-While light wallets could perform this kind of end-to-end timing attack, we
+While light wallets could attempt to perform end-to-end timing attacks to link
+the sender and receiver of a transaction, we
 consider such attacks out of scope considering the latency and batching that is
-already added by time required for a transaction to be included into the
+added in the time required for a transaction to be included into the
 blockchain, as further described in Section~\ref{observations}.
 
-\textbf{Fingerprinting attacks by Correlating End-to-End Behavior of Transactions}.
+\textbf{Behavior fingerprinting attacks:}
 Fingerprinting user behavior such as the frequency and number of transactions
-made can lead to deanonymizing senders and receivers in the setting where light
-wallets are used, even the transaction is shielded and timing information is
-removed (such as by sending the transaction through a mixnet).
+made could in theory allow for end-to-end linkability of senders and receivers
+in the setting where light wallets are used.
 For example, a malicious light wallet node could observe
 the frequency and pattern of a user’s transactions, and build a pattern to
 match against over time.
 
 However, as described in Section~\ref{observations}, it is unclear how
-end-to-end behavior correlation could occur, even if an adversary has a
-complete view of the network, considering how all transactions must first be
-synced to the network before a receiver can receive the funds. At minimum, a
+end-to-end behavior correlation could occur in practice, even if an adversary has a
+complete view of the network, as all transactions must first be
+published to the blockchain before a receiver can receive the funds. At minimum, a
 transaction will have the anonymity set of the size of one block, but this
-assumes a transaction is immediately synced to the blockchain; in reality,
-additional latency and randomness will be incurred due to proof of work
-requirements or network topologies that add latency to gossip protocols.
+assumes a transaction is immediately synced to the blockchain. In reality,
+ordering is not preserved for transactions included in the blockchain relative
+to when they were published to the network, due to proof of work
+requirements or variances in network topologies.
 
 
 \section{Review of Network Privacy Approaches}
