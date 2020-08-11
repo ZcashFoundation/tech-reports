@@ -589,12 +589,14 @@ the user's query.
  \hline
     \multirow{2}{*}{Full Node} & DoS & \Circle & \Circle & \Circle & \Circle & \Circle & \Circle \\
     & On-Path Correlation & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
+    & Block Access Pattern & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ & $\bigstar$ \\
 
     \hline
 
     \multirow{2}{*}{Light Client} & DoS & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
     & On-Path Correlation & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
+    & Block Access Pattern & $\Circle$ & $\Circle$ & $\Circle$ & $\CIRCLE$ & $\CIRCLE$ & $\CIRCLE$ \\
 
 \end{tabular}
 \end{table}
@@ -724,7 +726,8 @@ they are interested in learning. However, a malicious on-path light wallet
 could still perform end-to-end correlation attacks by observing the sender and
 receiver's identities, as well as link the sender to a specific transaction.
 Hence, we do not grant full protection against on-path correlation attacks when
-only PIR is used.
+only PIR is used. However, we do grant protection against the light wallet
+observing block access patterns due to the use of PIR.
 
 \textbf{Tor + PIR.}
 In the setting where senders and receivers use Tor along with PIR, we grant a
@@ -733,6 +736,7 @@ attacks.
 While nodes can learn that \emph{someone} is sending and receiving a
 transaction, nodes cannot learn either \emph{which} transaction, \emph{nor} who
 the sender or receiver are.
+Again, block access patterns are protected against due to the use of PIR.
 
 \textbf{Mixnet + PIR.}
 Similarly to Tor, we grant a full circle for protection against on-path
@@ -741,6 +745,8 @@ conjunction with PIR. Similarly to Tor, mixnets hide the identity of senders
 and receivers from the destination of their request by forwarding traffic along
 a series of hops, and so both systems achieve the same security properties for
 these reasons.
+Finally, block access patterns are protected against similarly to in the Tor +
+PIR case.
 
 Note however that this protection is
 achieved simply by routing user's transactions among the mix network of
