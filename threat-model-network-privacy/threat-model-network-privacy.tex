@@ -125,7 +125,7 @@ hide the information contained within a transaction, users of Zcash can also
 make non-shielded transactions. Because Zcash is a fork of Bitcoin,
 non-shielded transactions consequently have effectively the same expectation of
 privacy as plain Bitcoin transactions, which had been proven to be insecure
-against de-anonymization attacks~\cite{anon-bitcoin}. In this post, we will
+against deanonymization attacks~\cite{anon-bitcoin}. In this post, we will
 focus on evaluating the setting when shielded transactions.
 
 While both Zcash and Bitcoin have future goals of
@@ -133,7 +133,9 @@ stable Tor integration and other network-privacy mechanisms, this routing via
 an anonymity layer does not prevent attacks that examine the bytes of the
 transaction itself. So unshielded transactions in Zcash and all Bitcoin
 transactions leak information to a network observer, which can be exploited to
-perform deanonymization attacks.
+perform deanonymization attacks. Further, use of network privacy tools may not
+completely mitigate deanonymization attacks against unshielded
+transactions~\cite{JAWAHERI2020101684}.
 
 \subsection{Zcash Protocol for Producing and Receiving Transactions}
 
@@ -340,7 +342,17 @@ of IP addresses.
 \textbf{Malicious senders or receivers of Zcash:}
 Senders or receivers of Zcash can act honestly within the protocol but
 maliciously outside of the protocol (such as creating a ``honeypot'' for which
-Zcash users are tricked into sending valid transactions to).
+Zcash users are tricked into sending valid transactions to). Such an attack
+would require the malicious receiver (or sender) to deanonymize the sender by
+one of the following methods:
+
+\begin{enumerate}
+  \item Gaining identifiable information from the transaction itself.
+  \item Using known network analysis methods to trace a transaction back to its
+    source.
+  \item Operating a node used as en entry point (such as a light wallet).
+\end{enumerate}
+
 
 While preventing malicious
 senders or receivers of Zcash from compromising the other part is certainly
