@@ -401,15 +401,13 @@ probability of ``super-connected'' nodes that can link the node from which a
 transaction originated~\cite{dandelion, fanti2018dandelion}.
 
 However, in the case of a blockchain, all transactions are first synced to the
-blockchain before the receiver can learn the transaction. Hence, unique routing
-information will not allow a network adversary to learn the sender, receiver,
-transaction tuple. In short, because the transaction first becomes part of the
-global state of the network, there is no ``end-to-end linking'' of routing
-information that is helpful to an adversary, unlike in the setting where
-information is sent directly from a sender to a receiver, such as web
-application traffic.
+blockchain (and become part of the global state of the network) before the
+receiver can learn the transaction. Hence, an adversary
+will not be able to learn the sender, receiver, transaction tuple simply by
+passively observing network traffic (unless the receiver is using a light
+wallet, and this query is made in the clear).
 
-\textbf{Timing fingerprinting attacks:}
+\textbf{End-to-end timing fingerprinting attacks:}
 While an adversary can perform timing fingerprinting attacks on the sender of a
 transaction, the adversary still must be able to correlate this information to
 the receiver of the transaction in order to learn the full tuple of value.
@@ -423,7 +421,7 @@ consider such attacks out of scope considering the latency and batching that is
 added in the time required for a transaction to be included into the
 blockchain, as further described in Section~\ref{observations}.
 
-\textbf{Behavior fingerprinting attacks:}
+\textbf{End-to-end behavior fingerprinting attacks:}
 Fingerprinting user behavior such as the frequency and number of transactions
 made could in theory allow for end-to-end linkability of senders and receivers
 in the setting where light wallets are used.
@@ -543,17 +541,16 @@ the Use of Shielded Transactions)}
 We now review the extent to which Dandelion++, Tor, some generic PIR mechanism,
 and a Loopix-based mixnet
 protect against the existing network-based attacks against Zcash described in
-Section~\ref{attack-vectors}.
+Section~\ref{threat-model}.
 Note that we assume an attacker does not control either the sender or receiver
 of funds.
-
 We summarize our results in Table~\ref{network-zcash-assessment}, but describe
 our findings here.
 
-\textbf{Assumptions.} We assume the mixnet is a seperate anonymity network entirely, such as
-in the style of Nym, and is \emph{not} part of the cryptocurrency network
+\textbf{Assumptions.} We assume the mixnet is a separate anonymity network
+entirely, and is \emph{not} part of the cryptocurrency network
 itself (meaning that the initiator of a transaction forwards this transaction
-through the mixnet before it is published to the cryptocurrency network).
+through the mixnet first before it is published to the cryptocurrency network).
 
 We assume that the PIR mechanism is used by the user to look up transactions in
 such a way that the node serving that transaction cannot infer the contents of
@@ -754,7 +751,7 @@ as further described in Section~\ref{observations}.
 \section{Future Improvements for Zcash Network Privacy}
 \label{future-improvements}
 
-\subsection{Privacy Improvements for Unshielded Transactions}
+\subsection{Network Privacy Improvements for Unshielded Transactions}
 
 While the end goal for Zcash is to move all users to use shielded transactions,
 the reality today is that only a very small percentage of Zcash is transacted
@@ -767,7 +764,7 @@ lightweight and immediate first step to improving the privacy of unshielded
 transaction. However, we recognize that stronger protections are required in
 following steps to provide stronger security and privacy guarantees.
 
-\subsection{Privacy Improvements for Shielded Transactions}
+\subsection{Network Privacy Improvements for Shielded Transactions}
 
 In looking at Table~\ref{network-zcash-assessment}, the strongest protections
 are offered by the combination of PIR along with a network anonymity tool such
@@ -778,20 +775,19 @@ leaves little room for an attacker to gain advantage.
 
 While typically the
 ability for mixnets to offer protection
-against timing or behavior fingerprinting attacks provides some competitive
-advantage over Tor, in the setting where shielded transactions are used along
-with PIR, this advantage becomes minimal. It is unclear what advantage an
-attacker could gain simply by observing network patterns, without also learning
-the contents of a user's query or a user's identity, particularly when all
-traffic is for the same higher-level application---that of fetching
-transactions from the Zcash
-blockchain---as opposed to web traffic, which can differ depending on the
-website visited or application used.
+against timing or behavior fingerprinting attacks is desirable,
+in the setting where shielded transactions are used along
+with PIR for receiver queries, this advantage becomes minimal as mixnets tuned
+for general application traffic (such as web traffic) will not meaningfully
+increase  end-to-end latency beyond that already induced by the blockchain
+itself.
+Again, this observation requires that the receiver can hide the contents of
+their query.
 
-As such, our immediate-term plan to proceed with Tor, which is
-immediately deployable and has mature security analysis and availability. We
-will then assess PIR as a second step. We will continue to observe the maturity
-of mixnets as a possible option in the future.
+As such, our immediate-term plan to proceed with Tor integration, and will
+assess PIR as a second step.
+We will continue to observe the development of production-ready mixnets as a
+possible option in the future.
 
 \section{Conclusion}
 \label{conclusion}
