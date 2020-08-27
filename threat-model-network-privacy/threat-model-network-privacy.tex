@@ -231,7 +231,8 @@ While adversaries can certainly perform \emph{end-to-end} attacks in a blockchai
 setting, the above observations indicate that doing so requires different
 adversarial models than in other application settings such as for web traffic or email
 applications. Hence, we do not consider end-to-end timing or packet correlation
-attacks in this assessment of network privacy for Zcash in the setting where
+attacks when evaluating general-purpose network privacy tools such as Tor or
+general-purpose mixnets in this assessment of network privacy for Zcash in the setting where
 shielded transactions are used.
 
 
@@ -539,11 +540,12 @@ the Use of Shielded Transactions)}
 \label{network-privacy-assessment}
 
 We now review the extent to which Dandelion++, Tor, some generic PIR mechanism,
-and a Loopix-based mixnet
+and a \emph{general-purpose} Loopix-based mixnet
 protect against the existing network-based attacks against Zcash described in
 Section~\ref{threat-model}.
-Note that we assume an attacker does not control either the sender or receiver
-of funds.
+Note again that we assume an attacker does not control either the sender or receiver
+of funds, and assume the attacker is limited in resources such that they cannot
+perform a Sybil attack.
 We summarize our results in Table~\ref{network-zcash-assessment}, but describe
 our findings here.
 
@@ -566,8 +568,8 @@ the user's query.
   \CIRCLE=protects against; \Circle=does not protect against;
   $\bigstar$=Not a threat in this setting;
 
-  Mixnet=Loopix-based routing capable of delaying packets but not creating
-  dummy transactions;
+  Mixnet=General-purpose Loopix-based routing tuned for lower-latency
+  applications such as messaging or web-application traffic.
 
   DoS=Denial of Service;
 
@@ -615,8 +617,8 @@ such, while Tor can hide which transaction a sender made, in the setting where
 shielded transactions are used and receivers receive all transactions in a full
 broadcast model, the use of Tor does does not meaningfully change user privacy.
 
-\textbf{Mixnets.}
-While the use of a Loopix-based mixnet raises the cost to an adversary to
+\textbf{General-Purpose Mixnet.}
+While the use of a general-purpose Loopix-based mixnet raises the cost to an adversary to
 conduct fingerprinting attacks that could result in end-to-end linking of
 senders and receivers, this protection does not meaningfully increase user
 security in the full node setting or in light of the observations of the
@@ -647,7 +649,7 @@ protections.
 As such, use of Tor + PIR in the setting does not add meaningful privacy
 protections when shielded transactions are used.
 
-\textbf{Mixnet + PIR.}
+\textbf{General-Purpose Mixnet + PIR.}
 Again, because users operate with full nodes, even though the sender's identity
 is hidden and so are any timing or behavior leaks, use of mixnets with PIR does
 not add meaningful security when shielded transaction are used.
@@ -687,7 +689,7 @@ it could possibly perform a linking attack based purely on this information.
 Hence, we do not grant the property of protecting against end-to-end
 correlation attacks by on-path nodes.
 
-\textbf{Mixnets.}
+\textbf{General-Purpose Mixnet.}
 Because blockchains require publishing transactions to a global immutable data
 store (the blockchain), the property of mixnets to inject dummy packets to help
 discourage end-to-end packet correlation in a web traffic setting is less
@@ -698,7 +700,8 @@ transactions to infer information about the sender, receiver, and
 contents is less relevant in a blockchain setting due to the inherent latency
 incurred when publishing a transaction.
 While mixnets do hide timing information for packets by
-delaying messages sent through the mix network, in systems tuned for web or
+delaying messages sent through the mix network, in general-purpose mixnets that
+are tuned for web or
 messaging application traffic, such
 delays are on the order of seconds or even microseconds, where as we observed
 above, the Zcash network itself imposes delays on the order of minutes as
@@ -711,7 +714,7 @@ Similarly to the description of Tor above, a light wallet can observe which
 queries a receiver wishes to fetch, and so a malicious light wallet could use
 additional information to perform linking attacks. Hence, we do not grant the
 property of protecting against on-path end-to-end correlation attacks simply by
-use of mixnets alone.
+use of a general-purpose mixnets alone.
 
 \textbf{Only PIR.}
 PIR in the setting of Zcash ensures that a receiver can hide which transaction
@@ -731,7 +734,7 @@ transaction, nodes cannot learn either \emph{which} transaction, \emph{nor} who
 the sender or receiver are.
 Again, block access patterns are protected against due to the use of PIR.
 
-\textbf{Mixnet + PIR.}
+\textbf{General-Purpose Mixnet + PIR.}
 Similarly to Tor, we grant a full circle for protection against on-path
 correlation attacks when a mixnet used in
 conjunction with PIR. Similarly to Tor, mixnets hide the identity of senders
