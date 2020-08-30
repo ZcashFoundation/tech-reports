@@ -590,7 +590,7 @@ the user's query.
 
     \multirow{2}{*}{Light Client} & DoS & \Circle & \Circle & \Circle & \Circle &  \Circle &
     \Circle \\
-    & On-Path Correlation & \Circle & \Circle & \Circle & \Circle & \CIRCLE & \CIRCLE \\
+    & On-Path Correlation & \Circle & \CIRCLE & \CIRCLE & \Circle & \CIRCLE & \CIRCLE \\
     & Block Access Pattern & $\Circle$ & $\Circle$ & $\Circle$ & $\CIRCLE$ & $\CIRCLE$ & $\CIRCLE$ \\
 
 \end{tabular}
@@ -602,52 +602,41 @@ the user's query.
 In the full node setting when shielded transactions are used, Dandelion++ does
 not meaningfully change privacy
 guarantees for users, as Dandelion++ provides privacy in the setting of a
-super node with knowledge of the network graph. Because receivers of
-Zcash transactions operate in a full broadcast setting when using a full node,
-Dandelion++ does not add meaningful additional privacy guarantees, where simply
-examining a transaction cannot reveal any additional information.
+super node with knowledge of the network graph. In other words, knowledge of
+the originating node when using shielded transactions does not result in a
+meaningful information leak without additional knowledge of the receiver.
 Further, the protocol does not add any protection against denial of service
-attacks.
+attacks or the ability for nodes to observe block access patterns.
 
 \textbf{Tor.}
-Again, in the setting where full nodes are used, the receiver cannot be linked
+As previously discussed, in the setting where full nodes are used, the receiver cannot be linked
 to a specific transaction, unless the receiver themselves is malicious and
-colludes with other parties. As
-such, while Tor can hide which transaction a sender made, in the setting where
-shielded transactions are used and receivers receive all transactions in a full
-broadcast model, the use of Tor does does not meaningfully change user privacy.
+colludes with other parties.
+As such, the use of Tor does does not meaningfully change user privacy.
 
 \textbf{General-Purpose Mixnet.}
-While the use of a general-purpose Loopix-based mixnet raises the cost to an adversary to
+While the use of a general-purpose mixnet raises the cost to an adversary to
 conduct fingerprinting attacks that could result in end-to-end linking of
 senders and receivers, this protection does not meaningfully increase user
-security in the full node setting or in light of the observations of the
-inherent protections that blockchains offer against these attacks described in
-Section~\ref{observations}. Most specifically, because receivers operate in a
+security in the full node setting.
+Most specifically, because receivers operate in a
 full-broadcast mode, end-to-end linking of senders and receivers is not
 possible when full nodes are used, unless the receiver themselves is
 compromised or malicious.
-
-As such, assuming receivers are honest, then mixnets do not meaningfully provide
-additional privacy or security to Zcash users over Tor when operating in the
-full node setting.
 
 \textbf{Only PIR.}
 Because the receiver in a full node setting receives all transactions, use of
 PIR does not add any additional meaningful protections when shielded
 transactions are used. This is because the receiver has the full set of
-transactions themselves and does not need to perform a lookup to another server
-for this information.
+transactions themselves and consequently will not expose a specific query to
+any external party.
 
 \textbf{Tor + PIR.}
 Because receivers of Zcash when using a full node operate in full broadcast
-receiver mode---meaning that the user fetches the complete state of the network
-and consequently does not leak which transaction they are interested in---use
+receiver mode---meaning that the user
+does not leak which transaction they are interested in---use
 of PIR in this setting does not meaningfully add privacy or security
 protections.
-
-As such, use of Tor + PIR in the setting does not add meaningful privacy
-protections when shielded transactions are used.
 
 \textbf{General-Purpose Mixnet + PIR.}
 Again, because users operate with full nodes, even though the sender's identity
@@ -657,7 +646,7 @@ not add meaningful security when shielded transaction are used.
 \subsection{Analysis for Use of Light Wallets}
 
 \textbf{Dandelion++.}
-While useful in a non-shielded context, Dandelion++ does not protect against
+Similarly to the analysis for use of useful in a non-shielded context, Dandelion++ does not protect against
 end-to-end correlation attacks in the setting where light wallets are used.
 Specifically, while Dandelion++ protects against super nodes that can observe
 in-network gossip messages, Dandelion++ does not provide ``last-mile'' privacy,
@@ -684,10 +673,9 @@ Zcash.
 
 However, the light wallet can still observe which queries a receiver wishes to
 fetch, even if the light wallet cannot observe that receiver's network
-identity. If the light wallet provided service to both the sender and receiver,
-it could possibly perform a linking attack based purely on this information.
-Hence, we do not grant the property of protecting against end-to-end
-correlation attacks by on-path nodes.
+identity.
+Hence, we do not grant the property of protecting against
+block access patterns from receiver queries.
 
 \textbf{General-Purpose Mixnet.}
 Because blockchains require publishing transactions to a global immutable data
@@ -713,8 +701,7 @@ timing correlation even in Zcash today.
 Similarly to the description of Tor above, a light wallet can observe which
 queries a receiver wishes to fetch, and so a malicious light wallet could use
 additional information to perform linking attacks. Hence, we do not grant the
-property of protecting against on-path end-to-end correlation attacks simply by
-use of a general-purpose mixnets alone.
+property of protecting against block access patterns.
 
 \textbf{Only PIR.}
 PIR in the setting of Zcash ensures that a receiver can hide which transaction
@@ -735,21 +722,11 @@ the sender or receiver are.
 Again, block access patterns are protected against due to the use of PIR.
 
 \textbf{General-Purpose Mixnet + PIR.}
-Similarly to Tor, we grant a full circle for protection against on-path
-correlation attacks when a mixnet used in
-conjunction with PIR. Similarly to Tor, mixnets hide the identity of senders
-and receivers from the destination of their request by forwarding traffic along
-a series of hops, and so both systems achieve the same security properties for
-these reasons.
+We grant a full circle for protection against on-path
+correlation attacks when a mixnet used in conjunction with PIR, as the use of
+PIR should only increase protection to users.
 Finally, block access patterns are protected against similarly to in the Tor +
 PIR case.
-
-Note however that this protection is
-achieved simply by routing user's transactions among the mix network of
-independently-operated nodes, and the addition of message latency (to
-discourage timing fingerprinting) and dummy packets (to discourage behavior
-fingerprinting) does not add meaningful additional protections in this setting,
-as further described in Section~\ref{observations}.
 
 \section{Future Improvements for Zcash Network Privacy}
 \label{future-improvements}
@@ -804,6 +781,11 @@ Zcash users in the setting where \emph{shielded} transactions are used.
 Finally, we described next steps to improve user privacy in both a shielded and
 unshielded setting, starting with lightweight improvements to further
 longer-term structural changes.
+
+\section{Acknowledgements}
+
+We would like to thank Holmes Wilson from Zbay for his insightful discussion
+and feedback on this technical report.
 
 \bibliographystyle{plain}
 \bibliography{threat-model-network-privacy}
