@@ -1,6 +1,6 @@
 LATEX = pdflatex
 BIBTEX = bibtex
-MAIN = threat-model-network-privacy
+MAIN = network-privacy
 
 all: $(MAIN).pdf
 
@@ -12,5 +12,5 @@ $(MAIN).bbl: $(MAIN).bib
 	$(BIBTEX) $(MAIN)
 
 clean:
-	rm -f *.bbl *.blg threat-model-network-privacy.pdf *.aux *.log *.out
+	rm -f *.bbl *.blg network-privacy.pdf *.aux *.log *.out
 
