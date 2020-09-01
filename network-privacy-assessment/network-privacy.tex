@@ -467,7 +467,7 @@ general-purpose Loopix-based mixnets~\cite{Piotrowska:2017:LAS}.
 Further, we review private information retrieval (PIR) as a method which can be
 used in conjunction with the above systems.
 
-\textbf{Dandelion.}
+\subsection{Dandelion.}
 Dandelion~\cite{BojjaVenkatakrishnan:2017:DRB} and
 Dandelion++~\cite{Fanti:2018:DLC} is a lightweight gossip protocol aimed at
 adding additional network privacy for
@@ -494,7 +494,9 @@ a super node to link a specific transaction to the node which originally
 published that transaction.
 
 
-\textbf{Tor.}
+\subsection{Tor.}
+\label{tor-intro}
+
 Tor~\cite{tor-specification} is an anonymity network that today has over 2.5
 million users and a network
 size of over 6,500 nodes. Tor supports applications that require low latency,
@@ -513,8 +515,16 @@ participants, Tor avoids epistemic or routing attacks unlike completely
 decentralized networks which cannot guarantee a user or relay's view of the
 network is authentic or that all users fall within a global anonymity set.
 
+In Zcash, Tor integration can be implemented at several points: between senders
+and the Zcash network, between Zcash peers, or between receivers and the Zcash
+network. Because our focus is on preventing \emph{end-to-end} correlation
+attacks, we focus our attention on integrating Tor to submit and receive
+transactions only. While integrating Tor between Zcash peers could have some
+utility, as demonstrated by our analysis, this protection can easily be
+circumvented by malicious peers handling entry/exit traffic to the network.
 
-\textbf{Loopix-based Mixnets.}
+
+\subsection{Loopix-based Mixnets.}
 While a range of mix network designs have been introduced in the literature, in
 this assessment we consider only those which instantiate the
 Loopix~\cite{Piotrowska:2017:LAS} design, which provides improved latency
@@ -531,7 +541,7 @@ the network. However, alternative network distribution mechanisms can be used,
 but similarly may be subject to epistemic and path-routing attacks similar to
 other distributed networks.
 
-\textbf{Private Information Retrieval (PIR).}
+\subsection{Private Information Retrieval (PIR).}
 Even though the above network anonymity systems disassociate a sender or
 receiver's identity from the transaction, nodes can still observe which blocks
 are being fetched and perform fingerprinting attacks using this information.
@@ -758,7 +768,8 @@ following steps to provide stronger security and privacy guarantees.
 
 In looking at Table~\ref{network-zcash-assessment}, the strongest protections
 are offered by the combination of PIR along with a network anonymity tool such
-as Tor or a mixnet. Because use of an anonymity network protects against
+as Tor or a mixnet between senders and receivers and the edges of the Zcash
+network. Because use of an anonymity network protects against
 directly leaking the network identity of a user, and PIR protects against
 disclosing the contents of a user's query, the combination of these methods
 leaves little room for an attacker to gain advantage.
@@ -774,11 +785,18 @@ itself.
 Again, this observation requires that the receiver can hide the contents of
 their query.
 
-As such, our immediate-term plan to proceed with Tor integration, and will
-assess PIR as a second step.
+As such, our immediate-term plan to proceed with Tor integration to facilitate
+sending and receiving transactions over Tor, and will
+assess PIR to improve receiver query privacy as a second step.
 We will continue to observe the development of production-ready mixnets as a
 possible option in the future, with an eye towards large-scale adoption in
 order to ensure sufficiently large anonymity sets for users.
+
+As discussed in Section~\ref{tor-intro}, sending Peer-to-Peer traffic between
+Zcash nodes may frustrate some attackers' ability to perform end-to-end
+correlation attacks, but has no effect on other adversaries such
+as malicious light wallets. As such, we deem integrating Tor in the P2P gossip
+protocol for Zcash as low priority.
 
 \section{Conclusion}
 \label{conclusion}
